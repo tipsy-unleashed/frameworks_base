@@ -3730,6 +3730,13 @@ public final class Settings {
         public static final String NAV_BUTTONS = "nav_buttons";
 
         /**
+         * boolean value. toggles using arrow key locations on nav bar
+         * as left and right dpad keys
+         * @hide
+         */
+        public static final String NAVIGATION_BAR_MENU_ARROW_KEYS = "navigation_bar_menu_arrow_keys";
+
+        /**
          * Action to perform when the app switch key is long-pressed. (Default is 0)
          * (See KEY_HOME_LONG_PRESS_ACTION for valid values)
          * @hide
