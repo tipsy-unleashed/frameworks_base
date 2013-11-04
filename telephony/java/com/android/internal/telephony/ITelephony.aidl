@@ -538,6 +538,12 @@ interface ITelephony {
      */
     void setCellInfoListRate(int rateInMillis);
 
+
+    /**
+     * Return if the current radio is LTE on GSM
+     */
+    int getLteOnGsmMode();
+
     /**
      * Adds a protected sms address to the {@link Settings.Secure.PROTECTED_SMS_ADDRESSES}
      */
