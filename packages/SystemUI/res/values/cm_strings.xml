@@ -23,4 +23,7 @@
     <string name="advanced_dev_option_force_stop">Force stop</string>
     <string name="advanced_dev_option_uninstall">Uninstall</string>
 
+    <!-- Quick Settings -->
+    <string name="quick_settings_powermenu_label">Power Menu</string>
+
 </resources>
