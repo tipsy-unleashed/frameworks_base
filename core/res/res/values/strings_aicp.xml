@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-/* apps/common/assets/default/default/skins/StatusBar.xml
+/* //device/apps/common/assets/res/any/strings.xml
 **
-** Copyright 2011, The Android Open Source Project
+** Copyright 2015 AICP
 **
 ** Licensed under the Apache License, Version 2.0 (the "License");
 ** you may not use this file except in compliance with the License.
@@ -17,8 +17,13 @@
 ** limitations under the License.
 */
 -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/recent_remove_item" android:title="@string/status_bar_recent_remove_item_title" />
-    <item android:id="@+id/recent_inspect_item" android:title="@string/status_bar_recent_inspect_item_title" />
-    <item android:id="@+id/recent_launch_floating" android:title="@string/status_bar_recent_floating_item_title" />
-</menu>
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- Floating Window -->
+    <string name="floating_window_snap_top">Snap top</string>
+    <string name="floating_window_snap_bottom">Snap bottom</string>
+    <string name="floating_window_snap_left">Snap left</string>
+    <string name="floating_window_snap_right">Snap right</string>
+    <string name="floating_window_minimize">Minimize</string>
+
+</resources>

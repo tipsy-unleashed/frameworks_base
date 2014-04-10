@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-/* Copyright 2015 The Tesla OS
+/* Copyright 2015 The TipsyOs
 **
 ** Licensed under the Apache License, Version 2.0 (the "License");
 ** you may not use this file except in compliance with the License.
@@ -34,4 +34,23 @@
   <java-symbol type="style" name="Animation.Toast.SlideRightLeft" />
   <java-symbol type="style" name="Animation.Toast.SlideLeftRight" />
 
+  <!-- Floating Window -->
+  <java-symbol type="drawable" name="ic_floating_window_close" />
+  <java-symbol type="drawable" name="ic_floating_window_max" />
+  <java-symbol type="drawable" name="ic_floating_window_min" />
+  <java-symbol type="drawable" name="ic_floating_window_more" />
+  <java-symbol type="id" name="floating_window_background" />
+  <java-symbol type="id" name="floating_window_titlebar" />
+  <java-symbol type="id" name="floating_window_close" />
+  <java-symbol type="id" name="floating_window_max" />
+  <java-symbol type="id" name="floating_window_min" />
+  <java-symbol type="id" name="floating_window_more" />
+  <java-symbol type="layout" name="floating_window_layout" />
+  <java-symbol type="string" name="floating_window_snap_top"/>
+  <java-symbol type="string" name="floating_window_snap_bottom"/>
+  <java-symbol type="string" name="floating_window_snap_left"/>
+  <java-symbol type="string" name="floating_window_snap_right"/>
+  <java-symbol type="string" name="floating_window_minimize"/>
+
 </resources>
+
