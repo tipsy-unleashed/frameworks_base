@@ -992,6 +992,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         updateShowSearchHoldoff();
 
+	addAppCircleSidebar();
+
         // Setup pie container if enabled
         attachPieContainer(isPieEnabled());
 
@@ -1748,9 +1750,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 notification.getNotification().fullScreenIntent.send();
             } catch (PendingIntent.CanceledException e) {
             }
-        } else {
+       } else {
             // usual case: status bar visible & not immersive
-
             // show the ticker if there isn't already a heads up
             if (mHeadsUpNotificationView.getEntry() == null) {
                 tick(notification, true);
