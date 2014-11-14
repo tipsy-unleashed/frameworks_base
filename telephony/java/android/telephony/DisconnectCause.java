@@ -190,6 +190,12 @@ public class DisconnectCause {
     /** call failed due to LTE to 3G/2G handover not feasible */
     public static final int HO_NOT_FEASIBLE = 50;
 
+    /**
+     * Call was rejected due to number being blacklisted by user.
+     * {@@hide}
+     */
+    public static final int CALL_BLACKLISTED = 400;
+
     public static final int NO_CIRCUIT_AVAIL = 51;
     public static final int NO_ROUTE_TO_DESTINAON = 52;
     public static final int OPERATOR_DETERMINED_BARRING = 53;
@@ -371,6 +377,8 @@ public class DisconnectCause {
             return "NON_SELECTED_USER_CLEARING";
         case HO_NOT_FEASIBLE:
             return "HO_NOT_FEASIBLE";
+        case CALL_BLACKLISTED:
+            return "CALL_BLACKLISTED";
         case NO_CIRCUIT_AVAIL:
             return "NO_CIRCUIT_AVAIL";
         case NO_ROUTE_TO_DESTINAON:

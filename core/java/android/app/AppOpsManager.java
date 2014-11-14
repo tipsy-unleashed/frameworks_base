@@ -643,7 +643,7 @@ public class AppOpsManager {
             null, //CALL_PHONE
             UserManager.DISALLOW_SMS, //READ_SMS
             UserManager.DISALLOW_SMS, //WRITE_SMS
-            UserManager.DISALLOW_SMS, //RECEIVE_SMS
+            null, //RECEIVE_SMS
             null, //RECEIVE_EMERGENCY_SMS
             UserManager.DISALLOW_SMS, //RECEIVE_MMS
             null, //RECEIVE_WAP_PUSH
