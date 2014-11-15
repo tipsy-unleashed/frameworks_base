@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-
-/* Copyright 2016, SlimRoms project
+/* Copyright 2013-2016 SlimRoms Project
+** Copyright (c) 2013, The Linux Foundation. All rights reserved.
 **
 ** Licensed under the Apache License, Version 2.0 (the "License");
 ** you may not use this file except in compliance with the License.
@@ -54,5 +54,12 @@
 
     <!-- Wifi AP Disabled from Subscription change -->
     <java-symbol type="string" name="subscription_change_disabled_wifi_ap" />
+
+    <!-- Privacy Guard -->
+    <java-symbol type="drawable" name="stat_notify_privacy_guard" />
+    <java-symbol type="string" name="privacy_guard_notification" />
+    <java-symbol type="string" name="privacy_guard_notification_detail" />
+    <java-symbol type="string" name="privacy_guard_dialog_title" />
+    <java-symbol type="string" name="privacy_guard_dialog_summary" />
 
 </resources>

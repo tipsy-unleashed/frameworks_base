@@ -4533,7 +4533,6 @@ public final class Settings {
          * @hide
          */
         public static final String DASHBOARD_FONT_STYLE = "dashboard_font_style";
-
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
@@ -7097,6 +7096,12 @@ public final class Settings {
         public static final String SLEEP_TIMEOUT = "sleep_timeout";
 
         /**
+         * Whether newly installed apps should run with privacy guard by default
+         * @hide
+         */
+        public static final String PRIVACY_GUARD_DEFAULT = "privacy_guard_default";
+
+        /**
          * Controls whether double tap to wake is enabled.
          * @hide
          */
@@ -7190,6 +7195,7 @@ public final class Settings {
             SLEEP_TIMEOUT,
             DOUBLE_TAP_TO_WAKE,
             CAMERA_GESTURE_DISABLED,
+            PRIVACY_GUARD_DEFAULT,
             ADVANCED_REBOOT
         };
 
