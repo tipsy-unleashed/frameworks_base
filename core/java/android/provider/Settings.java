@@ -3877,6 +3877,24 @@ public final class Settings {
          */
         public static final String WIFI_AUTO_CONNECT_TYPE = "wifi_auto_connect_type";
 
+        /**
+         * Boolean value whether to link ringtone and notification volume
+         * @hide
+         */
+        public static final String VOLUME_LINK_NOTIFICATION = "volume_link_notification";
+
+        /**
+         * Toast icon
+         *
+         * @hide
+         */
+        public static final String TOAST_ICON = "toast_icon";
+
+        /**
+         * Show search bar in recents
+         * @hide
+         */
+        public static final String RECENTS_SHOW_SEARCH_BAR = "recents_show_search_bar";
 
         /**
          * Display style of the status bar battery information
@@ -3898,12 +3916,6 @@ public final class Settings {
          * @hide
          */
         public static final String STATUS_BAR_SHOW_BATTERY_PERCENT = "status_bar_show_battery_percent";
-
-        /**
-         * Boolean value whether to link ringtone and notification volume
-         * @hide
-         */
-        public static final String VOLUME_LINK_NOTIFICATION = "volume_link_notification";
 
         /**
          * Show or hide clock
@@ -3951,6 +3963,8 @@ public final class Settings {
          * 0 - Regular style
          * 1 - Lowercase
          * 2 - Uppercase
+
+        /**
          * @hide
          */
         public static final String STATUSBAR_CLOCK_DATE_STYLE = "statusbar_clock_date_style";
@@ -3960,33 +3974,6 @@ public final class Settings {
          * @hide
          */
         public static final String STATUSBAR_CLOCK_DATE_FORMAT = "statusbar_clock_date_format";
-
-        /**
-         * Toast icon
-         *
-         * @hide
-         */
-        public static final String TOAST_ICON = "toast_icon";
-
-        /**
-         * Whether the proximity sensor will adjust call to speaker
-         * @hide
-         */
-        public static final String PROXIMITY_AUTO_SPEAKER = "proximity_auto_speaker";
-
-        /**
-         * Time delay to activate speaker after proximity sensor triggered
-         * @hide
-         */
-        public static final String PROXIMITY_AUTO_SPEAKER_DELAY = "proximity_auto_speaker_delay";
-
-        /**
-         * Whether the proximity sensor will adjust call to speaker,
-         * only while in call (not while ringing on outgoing call)
-         * @hide
-         */
-        public static final String PROXIMITY_AUTO_SPEAKER_INCALL_ONLY =
-                "proximity_auto_speaker_incall_only";
 
         /**
          * Position of date
@@ -4095,6 +4082,26 @@ public final class Settings {
          * @hide
          */
         public static final String STATUS_BAR_CARRIER_COLOR = "status_bar_carrier_color";
+
+        /**
+         * Whether the proximity sensor will adjust call to speaker
+         * @hide
+         */
+        public static final String PROXIMITY_AUTO_SPEAKER = "proximity_auto_speaker";
+
+        /**
+         * Time delay to activate speaker after proximity sensor triggered
+         * @hide
+         */
+        public static final String PROXIMITY_AUTO_SPEAKER_DELAY = "proximity_auto_speaker_delay";
+
+        /**
+         * Whether the proximity sensor will adjust call to speaker,
+         * only while in call (not while ringing on outgoing call)
+         * @hide
+         */
+        public static final String PROXIMITY_AUTO_SPEAKER_INCALL_ONLY =
+                "proximity_auto_speaker_incall_only";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
