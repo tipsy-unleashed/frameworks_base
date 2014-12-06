@@ -204,4 +204,7 @@
   <!-- PlatLogo -->
   <java-symbol type="drawable" name="slim_platlogo" />
 
+    <!-- Blur effects -->
+    <java-symbol type="bool" name="config_ui_blur_enabled" />
+
 </resources>
