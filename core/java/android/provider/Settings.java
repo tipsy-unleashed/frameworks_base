@@ -3938,6 +3938,12 @@ public final class Settings {
          */
         public static final String ENABLE_REVERSE_LOOKUP = "enable_reverse_lookup";
 
+		/**
+         * Settings for clock font style
+         * @hide
+         */
+        public static final String STATUSBAR_CLOCK_FONT_STYLE = "statusbar_clock_font_style";
+
         /**
          * The forward lookup provider
          *
