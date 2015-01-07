@@ -3565,6 +3565,12 @@ public final class Settings {
          */
         public static final String PIE_SIZE = "pie_size";
 
+         /**
+         * Whether to dismiss all recents tasks
+         * @hide
+         */
+        public static final String RECENTS_CLEAR_ALL_DISMISS_ALL = "recents_clear_all_dismiss_all";
+
         /**
          * Pie button color
          * @hide
