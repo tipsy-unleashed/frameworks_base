@@ -3724,6 +3724,12 @@ public final class Settings {
         public static final String KEY_APP_SWITCH_ACTION = "key_app_switch_action";
 
         /**
+         * Navigation controls to Use
+         * @hide
+         */
+        public static final String NAV_BUTTONS = "nav_buttons";
+
+        /**
          * Action to perform when the app switch key is long-pressed. (Default is 0)
          * (See KEY_HOME_LONG_PRESS_ACTION for valid values)
          * @hide
