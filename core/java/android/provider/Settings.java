@@ -3802,6 +3802,13 @@ public final class Settings {
          */
         public static final String SHOW_CLEAR_ALL_RECENTS = "show_clear_all_recents";
 
+
+        /**
+         * Whether to show four tiles per row.
+         * @hide
+         */
+        public static final String QS_USE_FOUR_COLUMNS = "qs_use_four_columns";
+
         /**
          * location of the clear all rectents button
          * @hide
