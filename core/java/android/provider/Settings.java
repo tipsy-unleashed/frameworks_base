@@ -3664,7 +3664,7 @@ public final class Settings {
          */
         public static final String STATUS_BAR_SHOW_NETWORK_ACTIVITY = "status_bar_show_network_activity";
 
-       /**
+        /**
 	* Network traffic indicator, goes from least to greatest significant bitwise
 	* 0 = Display up-stream traffic if set
 	* 1 = Display down-stream traffic if set

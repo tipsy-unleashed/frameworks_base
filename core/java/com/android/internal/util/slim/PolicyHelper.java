@@ -110,8 +110,8 @@ public class PolicyHelper {
             if (resId > 0) {
                 d = systemUiResources.getDrawable(resId);
                 if (d != null) {
-                    d = ImageHelper.getColoredDrawable(d, 
-                            context.getResources().getColor(com.android.internal.R.color.dslv_icon_dark));
+                    d = new BitmapDrawable(ImageHelper.getColoredBitmap(d, 
+                            context.getResources().getColor(com.android.internal.R.color.dslv_icon_dark)));
                 }
             }
         } else if (customIcon != null && !customIcon.equals(ActionConstants.ICON_EMPTY)) {
@@ -128,11 +128,11 @@ public class PolicyHelper {
         } else if (clickAction.startsWith("**")) {
             d = getPowerMenuSystemIcon(context, clickAction);
             if (d != null) {
-                d = ImageHelper.getColoredDrawable(d, 
-                            context.getResources().getColor(com.android.internal.R.color.dslv_icon_dark));
+                d = new BitmapDrawable(ImageHelper.getColoredBitmap(d, 
+                            context.getResources().getColor(com.android.internal.R.color.dslv_icon_dark)));
             }
         }
-        return d;
+        return ImageHelper.resize(context, d, 36);
     }
 
     private static Drawable getPowerMenuSystemIcon(Context context, String clickAction) {
