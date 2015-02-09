@@ -46,6 +46,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.hardware.CmHardwareManager;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
