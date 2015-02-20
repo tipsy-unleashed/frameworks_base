@@ -55,6 +55,7 @@ import com.android.systemui.qs.tiles.LocationTile;
 import com.android.systemui.qs.tiles.NfcTile;
 import com.android.systemui.qs.tiles.LockscreenToggleTile;
 import com.android.systemui.qs.tiles.LteTile;
+import com.android.systemui.qs.tiles.NavBarTile;
 import com.android.systemui.qs.tiles.NotificationsTile;
 import com.android.systemui.qs.tiles.RebootTile;
 import com.android.systemui.qs.tiles.PowerMenuTile;
@@ -346,6 +347,8 @@ public class QSTileHost implements QSTile.Host {
                 return new ExpandedDesktopTile(this);
             case QSConstants.TILE_SLIM_FLOATS:
                 return new SlimFloatsTile(this);
+            case QSConstants.TILE_NAVBAR:
+                return new NavBarTile(this);
             default:
                 throw new IllegalArgumentException("Bad tile spec: " + tileSpec);
         }
