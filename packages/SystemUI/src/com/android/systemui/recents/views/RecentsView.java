@@ -451,6 +451,11 @@ public class RecentsView extends FrameLayout implements TaskStackView.TaskStackV
             Settings.System.RECENTS_CLEAR_ALL_DISMISS_ALL, 1) == 1;
     }
 
+    private boolean dismissAll() {
+        return Settings.System.getInt(mContext.getContentResolver(),
+            Settings.System.RECENTS_CLEAR_ALL_DISMISS_ALL, 1) == 1;
+    }
+
     @Override
     protected void onAttachedToWindow () {
         super.onAttachedToWindow();
