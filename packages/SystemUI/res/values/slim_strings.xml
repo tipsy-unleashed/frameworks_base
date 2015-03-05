@@ -157,8 +157,13 @@
     <string name="select_application">Select application</string>
     <string name="lockscreen_target_empty">Empty</string>
 
+<<<<<<< HEAD
 
     <!-- Greeting -->
     <string name="tipsy_label">The tavern is open</string>
+=======
+    <!-- No interuptions except alarms -->
+    <string name="zen_no_interruptions_but_alarm">No interruptions. Except alarms.</string>
+>>>>>>> 41082d9... [1/3] base: alarms and no interrupt zen mode
 
 </resources>
