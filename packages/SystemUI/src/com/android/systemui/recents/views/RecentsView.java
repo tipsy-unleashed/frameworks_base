@@ -347,7 +347,6 @@ public class RecentsView extends FrameLayout implements TaskStackView.TaskStackV
         mConfig.getTaskStackBounds(width, height, mConfig.systemInsets.top,
                 mConfig.systemInsets.right, taskStackBounds);
 
-        if (mFloatingButton != null && showClearAllRecents) {
         // Measure each TaskStackView with the full width and height of the window since the 
         // transition view is a child of that stack view
         int childCount = getChildCount();
@@ -370,24 +369,31 @@ public class RecentsView extends FrameLayout implements TaskStackView.TaskStackV
             }
         }
 
-            int clearRecentsLocation = Settings.System.getInt(mContext.getContentResolver(),
+        if (mFloatingButton != null && showClearAllRecents) {
+            int clearRecentsLocation = Settings.System.getInt(resolver,
                     Settings.System.RECENTS_CLEAR_ALL_LOCATION, Constants.DebugFlags.App.RECENTS_CLEAR_ALL_BOTTOM_RIGHT);
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)
                     mFloatingButton.getLayoutParams();
+            boolean isLandscape = mContext.getResources().getConfiguration().orientation
+                == Configuration.ORIENTATION_LANDSCAPE;
+            if (mSearchBar == null || isLandscape) {
+                params.topMargin = mContext.getResources().
+                    getDimensionPixelSize(com.android.internal.R.dimen.status_bar_height);
+            } else {
                 params.topMargin = mContext.getResources().
                     getDimensionPixelSize(com.android.internal.R.dimen.status_bar_height)
                         + searchBarSpaceBounds.height();
+            }
+
             if (mSearchBar != null && (searchBarSpaceBounds.width() > taskViewWidth)) {
                 // Adjust to the search bar
                 params.rightMargin = width - searchBarSpaceBounds.right;
             } else {
                 // Adjust to task views
                 params.rightMargin = (width / 2) - (taskViewWidth / 2);
-
-                // If very close to the screen edge, align to it
-                if (params.rightMargin < mClearRecents.getWidth())
-                    params.rightMargin = width - taskStackBounds.right;
             }
+
+
             switch (clearRecentsLocation) {
                 case Constants.DebugFlags.App.RECENTS_CLEAR_ALL_TOP_LEFT:
                     params.gravity = Gravity.TOP | Gravity.LEFT;
