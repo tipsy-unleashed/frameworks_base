@@ -3717,7 +3717,6 @@ public final class Settings {
          * Network stats Color style
          * @hide
          */
-
         public static final String NETWORK_TRAFFIC_COLOR = "network_traffic_color";
 
         /**
@@ -3725,6 +3724,24 @@ public final class Settings {
          * @hide
          */
         public static final String NETWORK_TRAFFIC_HIDE_ARROW = "network_traffic_hide_arrow";
+        
+        /**
+         * show carrier in statusbar. The value is
+         * int (1: Show or 0: Hide).
+         */
+        public static final String STATUS_BAR_CARRIER = "status_bar_carrier";
+
+        /**
+         * custom carrier label. The value is
+         * String.
+         */
+        public static final String CUSTOM_CARRIER_LABEL = "custom_carrier_label";
+
+        /**
+         * Carrier Label Custom Color
+         * @hide
+         */
+        public static final String STATUS_BAR_CARRIER_COLOR = "status_bar_carrier_color";
 
         /**
          * Whether to use slim recents
