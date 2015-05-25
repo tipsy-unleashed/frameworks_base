@@ -182,4 +182,7 @@
   <java-symbol type="id" name="shutdown_logo_shadow" />
   <java-symbol type="id" name="shutdown_message" />
 
+   <java-symbol type="integer" name="config_longPressOnMenuBehavior" />
+   <java-symbol type="integer" name="config_longPressOnAppSwitchBehavior" />
+
 </resources>
