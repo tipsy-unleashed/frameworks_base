@@ -17,7 +17,6 @@
 package com.android.internal.util.slim;
 
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
@@ -25,16 +24,11 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.VectorDrawable;
 import android.graphics.drawable.Drawable;
 
 public class ColorHelper {
 
-    public static Drawable getColoredDrawable(Drawable d, int color) {
-        if (d instanceof VectorDrawable) {
-            d.setTint(color);
-            return d;
-        }
+    public static Bitmap getColoredBitmap(Drawable d, int color) {
         Bitmap colorBitmap = ((BitmapDrawable) d).getBitmap();
         Bitmap grayscaleBitmap = toGrayscale(colorBitmap);
         Paint pp = new Paint();
@@ -43,19 +37,7 @@ public class ColorHelper {
         pp.setColorFilter(frontFilter);
         Canvas cc = new Canvas(grayscaleBitmap);
         cc.drawBitmap(grayscaleBitmap, 0, 0, pp);
-        return new BitmapDrawable(grayscaleBitmap);
-    }
-
-    public static Bitmap drawableToBitmap (Drawable drawable) {
-        if (drawable instanceof BitmapDrawable) {
-            return ((BitmapDrawable) drawable).getBitmap();
-        }
-        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(),
-                drawable.getIntrinsicHeight(), Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-        return bitmap;
+        return grayscaleBitmap;
     }
 
     private static Bitmap toGrayscale(Bitmap bmpOriginal) {
