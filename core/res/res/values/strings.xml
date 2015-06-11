@@ -3746,7 +3746,7 @@
         <xliff:g id="number" example="123">%2$d</xliff:g>.</string>
 
     <!-- [CHAR LIMIT=NONE] Message to show in upgrading dialog when reached the point of starting apps. -->
-    <string name="android_upgrading_starting_apps">Starting drunk apps.</string>
+    <string name="android_upgrading_starting_apps">Starting tipsy apps.</string>
 
     <!-- [CHAR LIMIT=NONE] Message to show in upgrading dialog when the bulk of the upgrade work is done. -->
     <string name="android_upgrading_complete">Finishing boot.</string>
