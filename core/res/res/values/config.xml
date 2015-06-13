@@ -1972,7 +1972,7 @@
 
     <!-- Package name providing alternate WebView implementation. 
            Fall back to config_webViewPackageName if not available. --> 
-    <string name="config_webViewPackageName" translatable="false">com.android.webview</string> 
+    <string name="config_alternateWebViewPackageName" translatable="false">com.android.webview</string> 
 
     <!-- If EMS is not supported, framework breaks down EMS into single segment SMS
          and adds page info " x/y". This config is used to set which carrier doesn't
