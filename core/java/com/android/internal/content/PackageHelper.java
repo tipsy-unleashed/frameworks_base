@@ -334,6 +334,17 @@ public class PackageHelper {
     }
 
     /**
+     * Is there storage mounted that would be possible to consider for
+     * installing to an external media?
+     */
+    public static boolean isExternalInstallPossible() {
+        return (!Environment.isExternalStorageEmulated() &&
+            Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) ||
+            (Environment.isNoEmulatedStorageExist() &&
+            Environment.MEDIA_MOUNTED.equals(Environment.getSecondaryStorageState()));
+    }
+
+    /**
      * Given a requested {@link PackageInfo#installLocation} and calculated
      * install size, pick the actual location to install the app.
      */
@@ -377,6 +388,7 @@ public class PackageHelper {
             checkBoth = false;
         }
 
+        final boolean externalIsEmulated = Environment.isExternalStorageEmulated();
         final boolean noemulated = Environment.isNoEmulatedStorageExist();
         final StorageManager storage = StorageManager.from(context);
 
@@ -387,12 +399,22 @@ public class PackageHelper {
         }
 
         boolean fitsOnExternal = false;
-        if (noemulated && (checkBoth || prefer == RECOMMEND_INSTALL_EXTERNAL)) {
+        if (!externalIsEmulated && (checkBoth || prefer == RECOMMEND_INSTALL_EXTERNAL)) {
             final File target = new UserEnvironment(UserHandle.USER_OWNER)
-                    .getSecondaryStorageDirectory();
+                    .getExternalStorageDirectory();
             // External is only an option when size is known
             if (sizeBytes > 0) {
                 fitsOnExternal = (sizeBytes <= storage.getStorageBytesUntilLow(target));
+            }
+        }
+
+        if (noemulated && (checkBoth || prefer == RECOMMEND_INSTALL_EXTERNAL)) {
+            final File target = new UserEnvironment(UserHandle.USER_OWNER)
+                     .getSecondaryStorageDirectory();
+            // External is only an option when size is known
+            if (sizeBytes > 0) {
+                fitsOnExternal = fitsOnExternal |
+                    (sizeBytes <= storage.getStorageBytesUntilLow(target));
             }
         }
 
@@ -400,7 +422,7 @@ public class PackageHelper {
             if (fitsOnInternal) {
                 return PackageHelper.RECOMMEND_INSTALL_INTERNAL;
             }
-        } else if (noemulated && prefer == RECOMMEND_INSTALL_EXTERNAL) {
+        } else if (prefer == RECOMMEND_INSTALL_EXTERNAL) {
             if (fitsOnExternal) {
                 return PackageHelper.RECOMMEND_INSTALL_EXTERNAL;
             }
@@ -409,7 +431,7 @@ public class PackageHelper {
         if (checkBoth) {
             if (fitsOnInternal) {
                 return PackageHelper.RECOMMEND_INSTALL_INTERNAL;
-            } else if (noemulated && fitsOnExternal) {
+            } else if (fitsOnExternal) {
                 return PackageHelper.RECOMMEND_INSTALL_EXTERNAL;
             }
         }
@@ -419,7 +441,10 @@ public class PackageHelper {
          * the media was unavailable. Otherwise, indicate there was insufficient
          * storage space available.
          */
-        if (noemulated && (checkBoth || prefer == RECOMMEND_INSTALL_EXTERNAL)
+        if (!externalIsEmulated && (checkBoth || prefer == RECOMMEND_INSTALL_EXTERNAL)
+                && !Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+            return PackageHelper.RECOMMEND_MEDIA_UNAVAILABLE;
+        } else if (noemulated && (checkBoth || prefer == RECOMMEND_INSTALL_EXTERNAL)
                 && !Environment.MEDIA_MOUNTED.equals(Environment.getSecondaryStorageState())) {
             return PackageHelper.RECOMMEND_MEDIA_UNAVAILABLE;
         } else {
