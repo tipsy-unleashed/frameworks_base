@@ -2416,16 +2416,17 @@ public abstract class BaseStatusBar extends SystemUI implements
         boolean isFullscreen = notification.fullScreenIntent != null;
         boolean hasTicker = mHeadsUpTicker && !TextUtils.isEmpty(notification.tickerText);
         boolean isOngoing = sbn.isOngoing();
-        //denying heads up by default
+
+        // incoming call should be allowed to process
+        // to handle non-intrusive ui correctly
+        int defHeadsUp = isIncomingCall(pkg)
+                ? Notification.HEADS_UP_ALLOWED
+                : Notification.HEADS_UP_NEVER;
         int asHeadsUp = notification.extras.getInt(Notification.EXTRA_AS_HEADS_UP,
-                Notification.HEADS_UP_NEVER);
-        PackageManager pmUser = getPackageManagerForUser(
-                sbn.getUser().getIdentifier());
-        //but if it's a system package, heads up should still be shown
-        boolean isSystemPackage = isThisASystemPackage(pkg, pmUser);
-        boolean isAllowed = (asHeadsUp != Notification.HEADS_UP_NEVER) || isSystemPackage;
-        if (DEBUG) Log.d(TAG, "package: "+pkg+", isSystem: "+isSystemPackage
-                +", asHeadsUp: "+asHeadsUp+", isAllowed: "+isAllowed);
+                defHeadsUp);
+        boolean isAllowed = (asHeadsUp != Notification.HEADS_UP_NEVER);
+        if (DEBUG) Log.d(TAG, "package: "+pkg+", asHeadsUp: "+asHeadsUp);
+
         boolean accessibilityForcesLaunch = isFullscreen
                 && mAccessibilityManager.isTouchExplorationEnabled();
 
@@ -2449,11 +2450,12 @@ public abstract class BaseStatusBar extends SystemUI implements
                 && mPowerManager.isScreenOn()
     	        && !isIMEShowing
                 && !isExpanded;
+        if (DEBUG) Log.d(TAG, "interrupt: "+interrupt);
 
 
         if (!interrupt) {
             boolean isHeadsUpPackage = (mNoMan.getHeadsUpNotificationsEnabledForPackage(
-                    pkg, sbn.getUid()) != Notification.HEADS_UP_NEVER) || isSystemPackage;
+                    pkg, sbn.getUid()) != Notification.HEADS_UP_NEVER);
             if (DEBUG) Log.d(TAG, "package: "+pkg+", isHeadsUpPackage: "+isHeadsUpPackage);
 
             // Possibly a heads up package set from the user.
@@ -2487,7 +2489,10 @@ public abstract class BaseStatusBar extends SystemUI implements
 
         if (DEBUG) Log.d(TAG, "interrupt: " + interrupt);
             return interrupt;
-        }
+    }
+
+    private boolean isIncomingCall(String packageName) {
+        return packageName.equals("com.android.dialer");
 
     private String getTopLevelPackage() {
         final ActivityManager am = (ActivityManager)
