@@ -2493,6 +2493,7 @@ public abstract class BaseStatusBar extends SystemUI implements
 
     private boolean isIncomingCall(String packageName) {
         return packageName.equals("com.android.dialer");
+    }
 
     private String getTopLevelPackage() {
         final ActivityManager am = (ActivityManager)
