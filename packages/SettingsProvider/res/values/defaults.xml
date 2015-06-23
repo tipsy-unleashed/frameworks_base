@@ -197,7 +197,7 @@
     <bool name="def_lock_screen_allow_private_notifications">true</bool>
 
     <!-- Default for Settings.Global.HEADS_UP_NOTIFICATIONS_ENABLED, 1==on -->
-    <integer name="def_heads_up_enabled">1</integer>
+    <integer name="def_heads_up_enabled">0</integer>
 
     <!-- Default DnD values of Settings.System.HEADS_UP_NOTIFICATION -->
     <string name="def_heads_up_notification_dnd_values"></string>
