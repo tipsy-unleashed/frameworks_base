@@ -2469,23 +2469,11 @@ public abstract class BaseStatusBar extends SystemUI implements
                                          || !mStatusBarKeyguardViewManager.isOccluded())
                 && mStatusBarKeyguardViewManager.isInputRestricted();
 
-        final InputMethodManager inputMethodManager = (InputMethodManager)
-                mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
-
-        boolean isIMEShowing = inputMethodManager.isImeShowing();
-
-        boolean isExpanded = false;
-            if (mStackScroller != null) {
-                isExpanded = mStackScroller.getIsExpanded();
-        }
-
         boolean interrupt = (isFullscreen || (isHighPriority && (isNoisy || hasTicker))) 
                 && isAllowed
                 && !accessibilityForcesLaunch
                 && mPowerManager.isScreenOn()
-    	        && !isIMEShowing
-                && !keyguardIsShowing
-                && !isExpanded;
+                && !keyguardIsShowing;
         if (DEBUG) Log.d(TAG, "interrupt: "+interrupt);
 
 
@@ -2500,7 +2488,6 @@ public abstract class BaseStatusBar extends SystemUI implements
                     && !sbn.isOngoing()
                     && mPowerManager.isScreenOn()
                     && !accessibilityForcesLaunch
-                    && !isExpanded
                     && !keyguardIsShowing;
 
             if (interrupt) {
@@ -2516,7 +2503,7 @@ public abstract class BaseStatusBar extends SystemUI implements
 
         // its below our threshold priority, we might want to always display
         // notifications from certain apps
-        if (!isHighPriority && !isOngoing && !isExpanded && !isIMEShowing) {
+        if (!isHighPriority && !isOngoing) {
             // However, we don't want to interrupt if we're in an application that is
             // in Do Not Disturb
             if (!isPackageInDnd(getTopLevelPackage())) {
@@ -2530,6 +2517,17 @@ public abstract class BaseStatusBar extends SystemUI implements
 
     private boolean isIncomingCall(String packageName) {
         return packageName.equals("com.android.dialer");
+    }
+
+    private boolean isNonIntrusiveEnabled() {
+        final String result = Settings.System.getString(mContext.getContentResolver(),
+            Settings.System.USE_NON_INTRUSIVE_CALL);
+
+        // should be on by default
+        if (result == null)
+            return true;
+
+        return !result.equals("0");
     }
 
     private String getTopLevelPackage() {
