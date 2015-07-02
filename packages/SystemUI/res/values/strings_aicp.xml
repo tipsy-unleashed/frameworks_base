@@ -18,9 +18,6 @@
 -->
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
 
-    <!-- Title shown in recents popup for showing app in floating mode -->
-    <string name="status_bar_recent_floating_item_title">Floating mode</string>
-
     <!-- Slim Action floats tile -->
     <string name="quick_settings_slim_floats_on">Slim Floats Enabled</string>
     <string name="quick_settings_slim_floats_off">Slim Floats Disabled</string>
