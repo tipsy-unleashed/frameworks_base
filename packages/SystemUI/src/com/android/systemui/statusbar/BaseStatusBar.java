@@ -2449,6 +2449,7 @@ public abstract class BaseStatusBar extends SystemUI implements
             return false;
         }
 
+<<<<<<< HEAD
         Notification notification = sbn.getNotification();
 
         // check if notification from the package is blacklisted first
@@ -2456,6 +2457,15 @@ public abstract class BaseStatusBar extends SystemUI implements
             return false;
         }
 
+=======
+        // Stop here if headsup is not globally forced and app is snoozed
+        if (!isHeadsUpForced() &&
+                mHeadsUpNotificationView.isSnoozed(pkg)) {
+            return false;
+        }
+
+        Notification notification = sbn.getNotification();
+>>>>>>> 1f33b64... [2/2] SlimHeadsUp: Add a global 3-way switch
         // some predicates to make the boolean logic legible
         boolean isNoisy = (notification.defaults & Notification.DEFAULT_SOUND) != 0
                 || (notification.defaults & Notification.DEFAULT_VIBRATE) != 0
