@@ -110,7 +110,7 @@ public class PolicyHelper {
             if (resId > 0) {
                 d = systemUiResources.getDrawable(resId);
                 if (d != null) {
-                    d = new BitmapDrawable(ImageHelper.getColoredBitmap(d, 
+                    d = new BitmapDrawable(ImageHelper.getColoredDrawable(d, 
                             context.getResources().getColor(com.android.internal.R.color.dslv_icon_dark)));
                 }
             }
@@ -128,7 +128,7 @@ public class PolicyHelper {
         } else if (clickAction.startsWith("**")) {
             d = getPowerMenuSystemIcon(context, clickAction);
             if (d != null) {
-                d = new BitmapDrawable(ImageHelper.getColoredBitmap(d, 
+                d = new BitmapDrawable(ImageHelper.getColoredDrawable(d, 
                             context.getResources().getColor(com.android.internal.R.color.dslv_icon_dark)));
             }
         }
