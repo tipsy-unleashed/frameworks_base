@@ -533,7 +533,7 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
             if (colorize && mNavBarButtonColorMode != 3) {
                 v.setImageBitmap(ColorHelper.getColoredBitmap(d, mNavBarButtonColor));
             } else {
-                v.setImageDrawable(d);
+            v.setImageBitmap(ColorHelper.drawableToBitmap(d));
             }
         }
         v.setRippleColor(mRippleColor);
@@ -583,9 +583,8 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
             } else {
                 v.setImageBitmap(ColorHelper.getColoredBitmap(d, mNavBarButtonColor));
             }
-        } else {
-            v.setImageDrawable(d);
         }
+        v.setImageBitmap(ColorHelper.drawableToBitmap(d));
         v.setRippleColor(mRippleColor);
 
         return v;

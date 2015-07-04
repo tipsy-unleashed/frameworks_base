@@ -2138,6 +2138,13 @@ public final class Settings {
         public static final String QS_SMART_PULLDOWN = "qs_smart_pulldown";
 
         /**
+        * Whether to enable ticker animation
+        *
+        * @hide
+        */
+       public static final String TICKER_ENABLED = "ticker_enabled";
+
+        /**
          * Whether to control brightness from status bar
          *
          * @hide
@@ -2164,6 +2171,13 @@ public final class Settings {
          */
         @Deprecated
         public static final String QS_USE_MAIN_TILES = "sysui_qs_main_tiles";
+
+        /**
+         * Defines global heads up enable/disable switch.
+         *
+         * @hide
+         */
+        public static final String HEADS_UP_GLOBAL_SWITCH = "heads_up_global_switch";
 
         /**
          * Defines global heads up snooze time if user want to snooze it.
@@ -3923,6 +3937,18 @@ public final class Settings {
          */
         public static final String HEADS_UP_BLACKLIST_VALUES = "heads_up_blacklist_values";
 
+	/**
+         * Settings for clock font style
+         * @hide
+         */
+        public static final String STATUSBAR_CLOCK_FONT_STYLE = "statusbar_clock_font_style";
+
+        /**
+         * Recents Show/Hide Search Bar
+         * @hide
+         */
+        public static final String RECENTS_SHOW_HIDE_SEARCH_BAR = "recents_show_hide_search_bar";
+        
         /**
          * Enable looking up of phone numbers of nearby places
          *
@@ -3943,12 +3969,6 @@ public final class Settings {
          * @hide
          */
         public static final String ENABLE_REVERSE_LOOKUP = "enable_reverse_lookup";
-
-		/**
-         * Settings for clock font style
-         * @hide
-         */
-        public static final String STATUSBAR_CLOCK_FONT_STYLE = "statusbar_clock_font_style";
 
         /**
          * The forward lookup provider
@@ -3984,12 +4004,6 @@ public final class Settings {
          * @hide
          */
         public static final String DIALER_OPENCNAM_AUTH_TOKEN = "dialer_opencnam_auth_token";
-
-        /**
-         * Recents Show/Hide Search Bar
-         * @hide
-         */
-        public static final String RECENTS_SHOW_HIDE_SEARCH_BAR = "recents_show_hide_search_bar";
 
         /**
 	 * Whether to display app circle sidebar
@@ -5264,6 +5278,12 @@ public final class Settings {
          */
         public static final String TRUST_AGENTS_INITIALIZED =
                 "trust_agents_initialized";
+
+        /**
+         * Chamber on / off (custom setting shortcuts)
+         * @hide
+         */
+        public static final String CHAMBER_OF_SECRETS = "chamber_of_secrets";
 
         /**
          * The Logging ID (a unique 64-bit value) as a hex string.

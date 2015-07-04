@@ -405,10 +405,10 @@ class AlarmManagerService extends SystemService {
         public int compare(Batch b1, Batch b2) {
             long when1 = b1.start;
             long when2 = b2.start;
-            if (when1 - when2 > 0) {
+            if (when1 > when2) {
                 return 1;
             }
-            if (when1 - when2 < 0) {
+            if (when1 < when2) {
                 return -1;
             }
             return 0;
@@ -1197,10 +1197,11 @@ class AlarmManagerService extends SystemService {
     }
 
     private Batch findFirstRtcWakeupBatchLocked() {
+        long elapsed = SystemClock.elapsedRealtime();
         final int N = mAlarmBatches.size();
         for (int i = 0; i < N; i++) {
             Batch b = mAlarmBatches.get(i);
-            long intervalTime  = b.start - SystemClock.elapsedRealtime();
+            long intervalTime = b.start - elapsed;
             if (b.isRtcPowerOffWakeup() && intervalTime > POWER_OFF_ALARM_THRESHOLD) {
                 return b;
             }
@@ -1639,12 +1640,12 @@ class AlarmManagerService extends SystemService {
      */
     public static class IncreasingTimeOrder implements Comparator<Alarm> {
         public int compare(Alarm a1, Alarm a2) {
-            long when1 = a1.when;
-            long when2 = a2.when;
-            if (when1 - when2 > 0) {
+            long when1 = a1.whenElapsed;
+            long when2 = a2.whenElapsed;
+            if (when1 > when2) {
                 return 1;
             }
-            if (when1 - when2 < 0) {
+            if (when1 < when2) {
                 return -1;
             }
             return 0;

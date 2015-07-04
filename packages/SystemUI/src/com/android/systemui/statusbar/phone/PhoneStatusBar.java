@@ -124,6 +124,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.internal.statusbar.StatusBarIcon;
 import com.android.internal.util.cm.WeatherControllerImpl;
@@ -225,6 +226,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     private static final int MSG_OPEN_SETTINGS_PANEL = 1002;
     private static final int MSG_LAUNCH_TRANSITION_TIMEOUT = 1003;
     private static final int MSG_UPDATE_NOTIFICATIONS = 1004;
+    private static final int MSG_SMART_PULLDOWN = 1005;
     // 1020-1040 reserved for BaseStatusBar
 
     // Time after we abort the launch transition.
@@ -486,6 +488,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     Settings.System.HEADS_UP_SNOOZE_TIME),
                     false, this, UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.HEADS_UP_GLOBAL_SWITCH),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.PIE_CONTROLS), false, this,
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
@@ -539,6 +544,14 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                         R.integer.heads_up_notification_decay),
                         UserHandle.USER_CURRENT);
                 resetHeadsUpDecayTimer();
+            } else if (uri.equals(Settings.System.getUriFor(
+                    Settings.System.HEADS_UP_GLOBAL_SWITCH))) {
+                final int headsUpGlobalSwitch = Settings.System.getIntForUser(
+                        mContext.getContentResolver(),
+                        Settings.System.HEADS_UP_GLOBAL_SWITCH,
+                        1,
+                        UserHandle.USER_CURRENT);
+                setHeadsUpGlobalSwitch(headsUpGlobalSwitch);
             } else if (uri.equals(Settings.System.getUriFor(
                     Settings.System.PIE_CONTROLS))) {
                 attachPieContainer(isPieEnabled());
@@ -963,6 +976,12 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         mHeadsUpNotificationView.setVisibility(View.GONE);
         mHeadsUpNotificationView.setBar(this);
+        final int headsUpGlobalSwitch = Settings.System.getIntForUser(
+                mContext.getContentResolver(),
+                Settings.System.HEADS_UP_GLOBAL_SWITCH,
+                1,
+                UserHandle.USER_CURRENT);
+        setHeadsUpGlobalSwitch(headsUpGlobalSwitch);
 
             mHeadsUpNotificationView.setVisibility(View.GONE);
             mHeadsUpNotificationView.setBar(this);
@@ -3188,6 +3207,30 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 enabled ? 1 : 0);
     }
 
+    @Override  // CommandQueue
+    public void toggleSmartPulldown() {
+        int smartPulldownMode = Settings.System.getIntForUser(
+                mContext.getContentResolver(), Settings.System.QS_SMART_PULLDOWN,
+                0, UserHandle.USER_CURRENT);
+        if (smartPulldownMode == 1 && !hasActiveClearableNotifications()) {
+            animateExpandSettingsPanel();
+        } else if (smartPulldownMode == 2 && !hasActiveVisibleNotifications()) {
+            animateExpandSettingsPanel();
+        } else if (smartPulldownMode == 3 && !hasActiveVisibleNotifications() &&
+                !hasActiveClearableNotifications()) {
+            animateExpandSettingsPanel();
+        } else if (smartPulldownMode == 0) {
+            Toast.makeText(mContext,
+                    R.string.smart_pulldown_disabled,
+                    Toast.LENGTH_LONG).show();
+        } else {
+            animateExpandNotificationsPanel();
+        }
+        mHandler.removeMessages(MSG_SMART_PULLDOWN);
+        mHandler.sendEmptyMessage(MSG_SMART_PULLDOWN);
+    }
+
+
     private int computeBarMode(int oldVis, int newVis, BarTransitions transitions,
             int transientFlag, int translucentFlag) {
         final int oldMode = barMode(oldVis, transientFlag, translucentFlag);
@@ -3293,6 +3336,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         return 0 == (mSystemUiVisibility & View.SYSTEM_UI_FLAG_LOW_PROFILE);
     }
 
+    private boolean isTickerEnabled() {
+        return Settings.System.getInt(mContext.getContentResolver(),
+                Settings.System.TICKER_ENABLED, 0) == 1;
+    }
+
     public void setLightsOn(boolean on) {
         Log.v(TAG, "setLightsOn(" + on + ")");
         if (on) {
@@ -3345,6 +3393,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         // no ticking in lights-out mode
         if (!areLightsOn()) return;
+
+        // user has ticker disabled
+        if (!isTickerEnabled()) return;
 
         // no ticking in Setup
         if (!isDeviceProvisioned()) return;

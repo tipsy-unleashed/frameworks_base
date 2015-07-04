@@ -216,6 +216,7 @@ public abstract class BaseStatusBar extends SystemUI implements
     protected boolean mDisableNotificationAlerts = false;
 
     private int mHeadsUpSnoozeTime;
+    private int mHeadsUpGlobalSwitch;
     private long mHeadsUpSnoozeStartTime;
     protected String mHeadsUpPackageName;
 
@@ -1047,10 +1048,12 @@ public abstract class BaseStatusBar extends SystemUI implements
             if (isThisASystemPackage(pkg, pmUser)) {
                 headsUpButton.setVisibility(View.GONE);
             } else {
-                boolean isHeadsUpEnabled = mNoMan.getHeadsUpNotificationsEnabledForPackage(
-                        pkg, appUidF) != Notification.HEADS_UP_NEVER;
-                headsUpButton.setAlpha(isHeadsUpEnabled ? 1f : 0.5f);
-                setHeadsUpButtonContentDescription((View) headsUpButton, isHeadsUpEnabled);
+                boolean isHeadsUpEnabledForPackage =
+                        mNoMan.getHeadsUpNotificationsEnabledForPackage(
+                            pkg, appUidF) != Notification.HEADS_UP_NEVER;
+                headsUpButton.setAlpha(isHeadsUpEnabledForPackage ? 1f : 0.5f);
+                setHeadsUpButtonContentDescription((View) headsUpButton,
+                        isHeadsUpEnabledForPackage);
                 headsUpButton.setVisibility(View.VISIBLE);
                 headsUpButton.setOnClickListener(new View.OnClickListener() {
                     public void onClick(View v) {
@@ -2368,6 +2371,18 @@ public abstract class BaseStatusBar extends SystemUI implements
                 mHeadsUpSnoozeTime / 60 / 1000), Toast.LENGTH_LONG).show();
     }
 
+    protected boolean isHeadsUpDisabled() {
+        return mHeadsUpGlobalSwitch == 0;
+    }
+
+    protected boolean isHeadsUpForced() {
+        return mHeadsUpGlobalSwitch == 2;
+    }
+
+    protected void setHeadsUpGlobalSwitch(int headsUpGlobalSwitch) {
+        mHeadsUpGlobalSwitch = headsUpGlobalSwitch;
+    }
+
     protected boolean isHeadsUpInSnooze() {
         return (mHeadsUpSnoozeStartTime + mHeadsUpSnoozeTime - System.currentTimeMillis()) > 0;
     }
@@ -2399,15 +2414,22 @@ public abstract class BaseStatusBar extends SystemUI implements
         }
 
         String pkg = sbn.getPackageName();
-        if (mHeadsUpNotificationView.isSnoozed(pkg)) {
+
+        // Stop here if :
+        //      headsup is globally disabled or we are globally snoozing
+        //  and
+        //      notification is not a call (intrusive/non-intrusive is handled elsewhere)
+        if ((isHeadsUpDisabled() || isHeadsUpInSnooze()) && !isIncomingCall(pkg)) {
+            return false;
+        }
+
+        // Stop here if headsup is not globally forced and app is snoozed
+        if (!isHeadsUpForced() &&
+                mHeadsUpNotificationView.isSnoozed(pkg)) {
             return false;
         }
 
         Notification notification = sbn.getNotification();
-        // we are snoozing
-        if (isHeadsUpInSnooze()) {
-            return false;
-        }
 
         // check if notification from the package is blacklisted first
         if (isPackageBlacklisted(sbn.getPackageName())) {
@@ -2456,12 +2478,14 @@ public abstract class BaseStatusBar extends SystemUI implements
                 && !accessibilityForcesLaunch
                 && mPowerManager.isScreenOn()
     	        && !isIMEShowing
+                && !keyguardIsShowing
                 && !isExpanded;
         if (DEBUG) Log.d(TAG, "interrupt: "+interrupt);
 
 
         if (!interrupt) {
-            boolean isHeadsUpPackage = (mNoMan.getHeadsUpNotificationsEnabledForPackage(
+            boolean isHeadsUpPackage = isHeadsUpForced() ||
+                    (mNoMan.getHeadsUpNotificationsEnabledForPackage(
                     pkg, sbn.getUid()) != Notification.HEADS_UP_NEVER);
             if (DEBUG) Log.d(TAG, "package: "+pkg+", isHeadsUpPackage: "+isHeadsUpPackage);
 
@@ -2496,6 +2520,10 @@ public abstract class BaseStatusBar extends SystemUI implements
 
         if (DEBUG) Log.d(TAG, "interrupt: " + interrupt);
             return interrupt;
+    }
+
+    private boolean isIncomingCall(String packageName) {
+        return packageName.equals("com.android.dialer");
     }
 
     private boolean isIncomingCall(String packageName) {
