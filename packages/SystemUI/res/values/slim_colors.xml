@@ -41,6 +41,11 @@
     <!-- Used by selector -->
     <color name="card_pressed">#7e3c3c3c</color>
 
+    <!-- Navigation ring target -->
+    <color name="navring_check_tint">@android:color/white</color>
+    <color name="navring_edit_fill">#FF558B2F</color>
+    <color name="navring_edit_tint">#FF689F38</color>
+
     <!-- Exposed resources for theming -->
     <color name="qs_user_detail_name_text">@color/exposed_qs_user_detail_name</color>
     <color name="headsup_scrim_start">@color/exposed_headsup_scrim_start</color>
