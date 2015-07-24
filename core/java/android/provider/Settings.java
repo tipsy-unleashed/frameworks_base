@@ -3810,7 +3810,14 @@ public final class Settings {
         public static final String QS_USE_FOUR_COLUMNS = "qs_use_four_columns";
 
         /**
-         * location of the clear all rectents button
+         * Number of columns to display on the quick settings panel
+         * Default is 3
+         * @hide
+         */
+        public static final String QS_NUM_TILE_COLUMNS = "sysui_qs_num_tile_columns";
+
+        /**
+          * location of the clear all rectents button
          * @hide
          */
         public static final String RECENTS_CLEAR_ALL_LOCATION = "recents_clear_all_location";
