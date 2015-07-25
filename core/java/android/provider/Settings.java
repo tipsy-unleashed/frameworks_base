@@ -4089,11 +4089,17 @@ public final class Settings {
          */
         public static final String STATUS_BAR_CARRIER_COLOR = "status_bar_carrier_color";
 
-        /**
+       /**
          * Whether the proximity sensor will adjust call to speaker
          * @hide
          */
         public static final String PROXIMITY_AUTO_SPEAKER = "proximity_auto_speaker";
+
+       /**
+         * Whether the notification light will be allowed when in zen mode during downtime
+         * @hide
+         */
+        public static final String ALLOW_LIGHTS = "allow_lights";
 
         /**
          * Time delay to activate speaker after proximity sensor triggered
@@ -4164,6 +4170,7 @@ public final class Settings {
             WIFI_AUTO_CONNECT_TYPE,
             NOTIFICATION_LIGHT_SCREEN_ON,
             STATUS_BAR_SHOW_BATTERY_PERCENT,
+            ALLOW_LIGHTS,
             PHONE_BLACKLIST_ENABLED,
             PHONE_BLACKLIST_NOTIFY_ENABLED,
             PHONE_BLACKLIST_PRIVATE_NUMBER_MODE,
