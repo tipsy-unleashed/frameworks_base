@@ -396,31 +396,6 @@ public final class PowerManager {
     public static final String POWER_PROFILE_CHANGED =
             "com.cyanogenmod.power.PROFILE_CHANGED";
 
-    /**
-     * Power save profile
-     * @hide
-     */
-    public static final String PROFILE_POWER_SAVE = "0";
-
-    /**
-     * Balanced power profile
-     * @hide
-     */
-    public static final String PROFILE_BALANCED = "1";
-
-    /**
-     * High-performance profile
-     * @hide
-     */
-    public static final String PROFILE_HIGH_PERFORMANCE = "2";
-
-    /**
-     * Broadcast sent when profile is changed
-     * @hide
-     */
-    public static final String POWER_PROFILE_CHANGED =
-            "com.cyanogenmod.power.PROFILE_CHANGED";
-
     final Context mContext;
     final IPowerManager mService;
     final Handler mHandler;
