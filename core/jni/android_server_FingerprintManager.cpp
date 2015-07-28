@@ -43,7 +43,7 @@
 
 namespace android {
 
-static const uint16_t kVersion = HARDWARE_MODULE_API_VERSION(1, 0);
+static const uint16_t kVersion = HARDWARE_MODULE_API_VERSION(1, 1);
 
 static const char* FINGERPRINT_SERVICE = "com/android/server/fingerprint/FingerprintService";
 static struct {
@@ -88,9 +88,10 @@ static void hal_notify_callback(fingerprint_msg_t msg) {
 
 	// TODO: fix gross hack to attach JNI to calling thread
     JNIEnv* env = AndroidRuntime::getJNIEnv();
+    JavaVM* vm = NULL;
     if (env == NULL) {
         JavaVMAttachArgs args = {JNI_VERSION_1_4, NULL, NULL};
-        JavaVM* vm = AndroidRuntime::getJavaVM();
+        vm = AndroidRuntime::getJavaVM();
         int result = vm->AttachCurrentThread(&env, (void*) &args);
         if (result != JNI_OK) {
             ALOGE("Can't call JNI method: attach failed: %#x", result);
@@ -99,6 +100,9 @@ static void hal_notify_callback(fingerprint_msg_t msg) {
     }
     env->CallVoidMethod(gFingerprintServiceClassInfo.callbackObject,
             gFingerprintServiceClassInfo.notify, msg.type, arg1, arg2);
+    if (vm != NULL) {
+        vm->DetachCurrentThread();
+    }
 }
 
 static void nativeInit(JNIEnv *env, jobject clazz, jobject callbackObj) {
@@ -109,15 +113,21 @@ static void nativeInit(JNIEnv *env, jobject clazz, jobject callbackObj) {
     gFingerprintServiceClassInfo.callbackObject = env->NewGlobalRef(callbackObj);
 }
 
+static jint nativeAuthenticate(JNIEnv* env, jobject clazz) {
+    ALOG(LOG_VERBOSE, LOG_TAG, "nativeAuthenticate()\n");
+    int ret = gContext.device->authenticate(gContext.device);
+    return reinterpret_cast<jint>(ret);
+}
+
 static jint nativeEnroll(JNIEnv* env, jobject clazz, jint timeout) {
     ALOG(LOG_VERBOSE, LOG_TAG, "nativeEnroll()\n");
     int ret = gContext.device->enroll(gContext.device, timeout);
     return reinterpret_cast<jint>(ret);
 }
 
-static jint nativeEnrollCancel(JNIEnv* env, jobject clazz) {
-    ALOG(LOG_VERBOSE, LOG_TAG, "nativeEnrollCancel()\n");
-    int ret = gContext.device->enroll_cancel(gContext.device);
+static jint nativeCancel(JNIEnv* env, jobject clazz) {
+    ALOG(LOG_VERBOSE, LOG_TAG, "nativeCancel()\n");
+    int ret = gContext.device->cancel(gContext.device);
     return reinterpret_cast<jint>(ret);
 }
 
@@ -156,7 +166,7 @@ static jint nativeOpenHal(JNIEnv* env, jobject clazz) {
 
     if (kVersion != device->version) {
         ALOGE("Wrong fp version. Expected %d, got %d", kVersion, device->version);
-        // return 0; // FIXME
+        return 0;
     }
 
     gContext.device = reinterpret_cast<fingerprint_device_t*>(device);
@@ -183,8 +193,9 @@ static jint nativeCloseHal(JNIEnv* env, jobject clazz) {
 
 // TODO: clean up void methods
 static const JNINativeMethod g_methods[] = {
+    { "nativeAuthenticate", "()I", (void*)nativeAuthenticate },
     { "nativeEnroll", "(I)I", (void*)nativeEnroll },
-    { "nativeEnrollCancel", "()I", (void*)nativeEnroll },
+    { "nativeCancel", "()I", (void*)nativeCancel },
     { "nativeRemove", "(I)I", (void*)nativeRemove },
     { "nativeOpenHal", "()I", (void*)nativeOpenHal },
     { "nativeCloseHal", "()I", (void*)nativeCloseHal },

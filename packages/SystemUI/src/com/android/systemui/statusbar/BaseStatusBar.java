@@ -2583,6 +2583,17 @@ public abstract class BaseStatusBar extends SystemUI implements
         return !result.equals("0");
     }
 
+    private boolean isNonIntrusiveEnabled() {
+        final String result = Settings.System.getString(mContext.getContentResolver(),
+            Settings.System.USE_NON_INTRUSIVE_CALL);
+
+        // should be on by default
+        if (result == null)
+            return true;
+
+        return !result.equals("0");
+    }
+
     private String getTopLevelPackage() {
         final ActivityManager am = (ActivityManager)
                 mContext.getSystemService(Context.ACTIVITY_SERVICE);
