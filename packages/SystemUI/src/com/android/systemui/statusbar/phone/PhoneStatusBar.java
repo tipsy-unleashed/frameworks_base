@@ -516,6 +516,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.HEADS_UP_NOTIFCATION_DECAY), false, this,
                     UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.LOCKSCREEN_ROTATION),false, this, 
+                    UserHandle.USER_ALL);
             update();
         }
 
@@ -608,6 +611,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     Settings.System.RECENT_CARD_TEXT_COLOR))) {
                 rebuildRecentsScreen();
             }
+            mStatusBarWindowManager.updateKeyguardScreenRotation();
         }
 
         public void update() {
@@ -716,6 +720,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         }
     };
 
+    private SettingsObserver mSettingsObserver = new SettingsObserver(mHandler);
 
     private int mInteractingWindows;
     private boolean mAutohideSuspended;
@@ -888,8 +893,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
         addNavigationBar();
 
-        SettingsObserver observer = new SettingsObserver(mHandler);
-        observer.observe();
+        mSettingsObserver.observe();
 
         // Lastly, call to the icon policy to install/update all the icons.
         mIconPolicy = new PhoneStatusBarPolicy(mContext, mCastController, mSuController);
@@ -3906,6 +3910,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         updateNotifications();
         resetUserSetupObserver();
         setControllerUsers();
+        mSettingsObserver.update();
     }
 
     private void setControllerUsers() {
