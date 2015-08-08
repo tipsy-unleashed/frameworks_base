@@ -43,6 +43,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.os.PowerManager;
 import android.os.RemoteException;
+import android.os.PowerManager;
+import android.os.SystemClock;
 import android.os.UserHandle;
 import android.provider.Settings;
 import android.util.AttributeSet;
@@ -50,6 +52,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
+import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -147,6 +150,10 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
 
     private FrameLayout mRot0;
     private FrameLayout mRot90;
+
+    private boolean mDoubleTapSleep;
+
+    private GestureDetector mDoubleTapGesture;
 
     private boolean mDimNavButtons;
     private int mDimNavButtonsTimeout;
@@ -354,6 +361,16 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
 
         mKgm = (KeyguardManager)
                 mContext.getSystemService(Context.KEYGUARD_SERVICE);
+
+        mDoubleTapGesture = new GestureDetector(context,
+                new GestureDetector.SimpleOnGestureListener() {
+            @Override
+            public boolean onDoubleTap(MotionEvent motionEvent) {
+                PowerManager pm = (PowerManager) mContext.getSystemService(Context.POWER_SERVICE);
+                if (pm != null) pm.goToSleep(SystemClock.uptimeMillis());
+                return true;
+            }
+        });
     }
 
     @Override
@@ -403,6 +420,9 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
         if (mDelegateHelper != null && mDelegateIntercepted) {
             boolean ret = mDelegateHelper.onInterceptTouchEvent(event);
             if (ret) return true;
+        }
+        if (mDoubleTapSleep) {
+            mDoubleTapGesture.onTouchEvent(event);
         }
         return super.onTouchEvent(event);
     }
@@ -1210,6 +1230,8 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.DIM_NAV_BUTTONS), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
+		    Settings.System.NAVIGATION_BAR_DOUBLE_TAP_SLEEP),false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.DIM_NAV_BUTTONS_TIMEOUT), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.DIM_NAV_BUTTONS_ALPHA), false, this);
@@ -1244,6 +1266,9 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
                     (Settings.System.getIntForUser(resolver,
                     Settings.System.STATUS_BAR_IME_ARROWS, HIDE_IME_ARROW,
                     UserHandle.USER_CURRENT) == SHOW_IME_ARROW);
+            mDoubleTapSleep = Settings.System.getIntForUser(resolver,
+                    Settings.System.NAVIGATION_BAR_DOUBLE_TAP_SLEEP,
+                    0, UserHandle.USER_CURRENT) != 0;
             mDimNavButtons = (Settings.System.getIntForUser(resolver,
                     Settings.System.DIM_NAV_BUTTONS, 0,
                     UserHandle.USER_CURRENT) == 1);

@@ -3710,6 +3710,12 @@ public final class Settings {
          * @hide
          */
         public static final String NAVIGATION_BAR_CONFIG = "navigation_bar_config";
+        
+        /**
+         * Enable navigation bar double tap gesture to put device to sleep
+         * @hide
+         */
+        public static final String NAVIGATION_BAR_DOUBLE_TAP_SLEEP = "navigation_bar_double_tap_sleep";        
 
         /**
          * Config for advanced power menu
