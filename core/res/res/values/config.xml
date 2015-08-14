@@ -2319,4 +2319,9 @@
          NOTE: This requires additional hardware-specific code. -->
     <bool name="config_ui_blur_enabled">false</bool>
 
+
+    <!-- Do the battery/notification LEDs support pulsing?
+         Used to decide if we show pulse settings -->
+    <bool name="config_ledCanPulse">true</bool>
+
 </resources>
