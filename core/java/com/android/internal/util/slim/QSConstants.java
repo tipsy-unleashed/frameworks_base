@@ -52,6 +52,7 @@ public class QSConstants {
     public static final String TILE_LIVE_DISPLAY = "live_display";
     public static final String TILE_EXPANDED_DESKTOP = "expanded_desktop";
     public static final String TILE_SLIM_FLOATS = "slim_floats";
+    public static final String TILE_VOLUME = "volume_panel";
 
     // Order matters
     protected static final ArrayList<String> TILES_DEFAULT = new ArrayList<String>();
@@ -85,6 +86,7 @@ public class QSConstants {
         TILES_AVAILABLE.add(TILE_LOCKSCREEN);
         TILES_AVAILABLE.add(TILE_LTE);
         TILES_AVAILABLE.add(TILE_VISUALIZER);
+        TILES_AVAILABLE.add(TILE_VOLUME);
         TILES_AVAILABLE.add(TILE_SYNC);
         TILES_AVAILABLE.add(TILE_SCREEN_TIMEOUT);
         TILES_AVAILABLE.add(TILE_USB_TETHER);
