@@ -4010,6 +4010,12 @@ public final class Settings {
         public static final String INCREASING_RING = "increasing_ring";
 
         /**
+         * Clean recent by shake
+         * @hide
+         */
+        public static final String SHAKE_CLEAN_RECENT = "shake_clean_recent";
+
+        /**
          * Start volume fraction for increasing ring volume
          * @hide
          */
