@@ -20,9 +20,11 @@ import android.annotation.IntDef;
 import android.app.INotificationManager;
 import android.app.ITransientNotification;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.PixelFormat;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.RemoteException;
 import android.os.ServiceManager;
@@ -399,6 +401,17 @@ public class Toast {
                 String packageName = mView.getContext().getOpPackageName();
                 if (context == null) {
                     context = mView.getContext();
+                }
+
+                ImageView appIcon = (ImageView) mView.findViewById(android.R.id.icon);
+                if (appIcon != null) {
+                    PackageManager pm = context.getPackageManager();
+                    try {
+                        Drawable icon = pm.getApplicationIcon(packageName);
+                        appIcon.setImageDrawable(icon);
+                    } catch (PackageManager.NameNotFoundException e) {
+                        // Empty
+                    }
                 }
                 if ((Settings.System.getInt(context.getContentResolver(), Settings.System.TOAST_ICON, 1) == 1)) {
                     }
