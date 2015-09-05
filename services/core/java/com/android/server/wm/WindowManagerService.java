@@ -222,12 +222,17 @@ public class WindowManagerService extends IWindowManager.Stub
     /**
      * Dim surface layer is immediately below target window.
      */
-    static final int LAYER_OFFSET_DIM = 1;
+    static final int LAYER_OFFSET_DIM = 1+1;
 
     /**
      * Blur surface layer is immediately below dim layer.
      */
-    static final int LAYER_OFFSET_BLUR = 2;
+    static final int LAYER_OFFSET_BLUR = 2+1;
+
+    /**
+      * Blur_with_masking layer is immediately below blur layer.
+      */
+    static final int LAYER_OFFSET_BLUR_WITH_MASKING = 1;
 
     /**
      * FocusedStackFrame layer is immediately above focused window.
@@ -2214,6 +2219,16 @@ public class WindowManagerService extends IWindowManager.Stub
             } else if (changingTarget.mWallpaperDisplayOffsetY != Integer.MIN_VALUE) {
                 mLastWallpaperDisplayOffsetY = changingTarget.mWallpaperDisplayOffsetY;
             }
+            if (target.mWallpaperXStep >= 0) {
+                mLastWallpaperXStep = target.mWallpaperXStep;
+            } else if (changingTarget.mWallpaperXStep >= 0) {
+                mLastWallpaperXStep = changingTarget.mWallpaperXStep;
+            }
+            if (target.mWallpaperYStep >= 0) {
+                mLastWallpaperYStep = target.mWallpaperYStep;
+            } else if (changingTarget.mWallpaperYStep >= 0) {
+                mLastWallpaperYStep = changingTarget.mWallpaperYStep;
+            }
         }
 
         int curTokenIndex = mWallpaperTokens.size();
@@ -4088,6 +4103,15 @@ public class WindowManagerService extends IWindowManager.Stub
             if (changed) {
                 mFocusedApp = newFocus;
                 mInputMonitor.setFocusedAppLw(newFocus);
+                setFocusedStackFrame();
+                if (SHOW_LIGHT_TRANSACTIONS) Slog.i(TAG, ">>> OPEN TRANSACTION setFocusedApp");
+                SurfaceControl.openTransaction();
+                try {
+                    setFocusedStackLayer();
+                } finally {
+                    SurfaceControl.closeTransaction();
+                    if (SHOW_LIGHT_TRANSACTIONS) Slog.i(TAG, ">>> CLOSE TRANSACTION setFocusedApp");
+                }
             }
 
             if (moveFocusNow && changed) {
@@ -4928,8 +4952,19 @@ public class WindowManagerService extends IWindowManager.Stub
         if (NW > 0) {
             mWindowsChanged = true;
         }
+        int targetDisplayId = -1;
+        Task targetTask = mTaskIdToTask.get(token.appWindowToken.groupId);
+        if (targetTask != null) {
+            DisplayContent targetDisplayContent = targetTask.getDisplayContent();
+            if (targetDisplayContent != null) {
+                targetDisplayId = targetDisplayContent.getDisplayId();
+            }
+        }
         for (int i = 0; i < NW; i++) {
             WindowState win = windows.get(i);
+            if (targetDisplayId != -1 && win.getDisplayId() != targetDisplayId) {
+                continue;
+            }
             if (DEBUG_WINDOW_MOVEMENT) Slog.v(TAG, "Tmp removing app window " + win);
             win.getWindowList().remove(win);
             int j = win.mChildWindows.size();
@@ -5908,7 +5943,7 @@ public class WindowManagerService extends IWindowManager.Stub
         boolean wallpaperEnabled = mContext.getResources().getBoolean(
                 com.android.internal.R.bool.config_enableWallpaperService)
                 && !mOnlyCore;
-        boolean haveKeyguard = true;
+        boolean haveKeyguard = false;
         // TODO(multidisplay): Expand to all displays?
         final WindowList windows = getDefaultWindowListLocked();
         final int N = windows.size();
@@ -8982,7 +9017,7 @@ public class WindowManagerService extends IWindowManager.Stub
                 anyLayerChanged = true;
             }
             final TaskStack stack = w.getStack();
-            if (layerChanged && stack != null && stack.isDimming(winAnimator)) {
+            if (layerChanged && stack != null && (stack.isDimming(winAnimator) || stack.isBlurring(winAnimator))) {
                 // Force an animation pass just to update the mDimLayer layer.
                 scheduleAnimationLocked();
             }
@@ -9177,7 +9212,8 @@ public class WindowManagerService extends IWindowManager.Stub
             if (!gone || !win.mHaveFrame || win.mLayoutNeeded
                     || ((win.isConfigChanged() || win.setInsetsChanged()) &&
                             ((win.mAttrs.privateFlags & PRIVATE_FLAG_KEYGUARD) != 0 ||
-                            win.mAppToken != null && win.mAppToken.layoutConfigChanges))
+                            (win.mHasSurface && win.mAppToken != null &&
+                            win.mAppToken.layoutConfigChanges)))
                     || win.mAttrs.type == TYPE_UNIVERSE_BACKGROUND) {
                 if (!win.mLayoutAttached) {
                     if (initial) {
@@ -9875,6 +9911,31 @@ public class WindowManagerService extends IWindowManager.Stub
         winAnimator.updateFullyTransparent(attrs);
     }
 
+    private void handleFlagBlurBehind(WindowState w) {
+        final WindowManager.LayoutParams attrs = w.mAttrs;
+        if ((attrs.flags & FLAG_BLUR_BEHIND) != 0
+                && w.isDisplayedLw()
+                && !w.mExiting) {
+            final WindowStateAnimator winAnimator = w.mWinAnimator;
+            final TaskStack stack = w.getStack();
+            if (stack == null) {
+                return;
+            }
+            stack.setBlurringTag();
+            if (!stack.isBlurring(winAnimator)) {
+                if (localLOGV) Slog.v(TAG, "Win " + w + " start blurring");
+                stack.startBlurringIfNeeded(winAnimator);
+            }
+        }
+    }
+
+    private void handlePrivateFlagBlurWithMasking(WindowState w) {
+        final WindowManager.LayoutParams attrs = w.mAttrs;
+        boolean hideForced = !w.isDisplayedLw() || w.mExiting;
+        final WindowStateAnimator winAnimator = w.mWinAnimator;
+        winAnimator.updateBlurWithMaskingState(attrs, hideForced);
+    }
+
     private void updateAllDrawnLocked(DisplayContent displayContent) {
         // See if any windows have been drawn, so they (and others
         // associated with them) can now be shown.
@@ -10055,6 +10116,7 @@ public class WindowManagerService extends IWindowManager.Stub
                 mInnerFields.mObscured = false;
                 mInnerFields.mSyswin = false;
                 displayContent.resetDimming();
+                displayContent.resetBlurring();
 
                 // Only used if default window
                 final boolean someoneLosingFocus = !mLosingFocus.isEmpty();
@@ -10080,6 +10142,11 @@ public class WindowManagerService extends IWindowManager.Stub
                     }
 
                     handlePrivateFlagFullyTransparent(w);
+
+                    if (stack != null && !stack.testBlurringTag()) {
+                        handleFlagBlurBehind(w);
+                    }
+                    handlePrivateFlagBlurWithMasking(w);
 
                     if (isDefaultDisplay && obscuredChanged && (mWallpaperTarget == w)
                             && w.isVisibleLw()) {
@@ -10216,6 +10283,7 @@ public class WindowManagerService extends IWindowManager.Stub
                         true /* inTraversal, must call performTraversalInTrans... below */);
 
                 getDisplayContentLocked(displayId).stopDimmingIfNeeded();
+                getDisplayContentLocked(displayId).stopBlurringIfNeeded();
 
                 if (updateAllDrawn) {
                     updateAllDrawnLocked(displayContent);
