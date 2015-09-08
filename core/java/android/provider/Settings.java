@@ -4063,6 +4063,12 @@ public final class Settings {
         public static final String INCREASING_RING_RAMP_UP_TIME = "increasing_ring_ramp_up_time";
 
         /**
+         * Status bar greeting
+         * @hide
+         */
+        public static final String STATUS_BAR_GREETING = "status_bar_greeting";
+
+        /**
          * Heads Up Notifications
          * @hide
          */
