@@ -1279,6 +1279,37 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
 
         setNavigationIconHints(mNavigationIconHints, true);
 
+        // update back button colors
+        Drawable backIcon, backIconLand;
+        ActionConfig actionConfig;
+        String backIconUri = ActionConstants.ICON_EMPTY;
+        for (int j = 0; j < mButtonsConfig.size(); j++) {
+            actionConfig = mButtonsConfig.get(j);
+            final String action = actionConfig.getClickAction();
+            if (action.equals(ActionConstants.ACTION_BACK)) {
+                backIconUri = actionConfig.getIcon();
+            }
+        }
+
+        if (backIconUri.equals(ActionConstants.ICON_EMPTY)) {
+            backIcon = mContext.getResources().getDrawable(
+                    R.drawable.ic_sysbar_back);
+            backIconLand = mContext.getResources().getDrawable(
+                    R.drawable.ic_sysbar_back_land);
+        } else {
+            backIcon = ActionHelper.getActionIconImage(mContext,
+                    ActionConstants.ACTION_BACK, backIconUri);
+            backIconLand = backIcon;
+        }
+        boolean shouldColor = true;
+        if (backIconUri != null && !backIconUri.equals(ActionConstants.ICON_EMPTY)
+                && !backIconUri.startsWith(ActionConstants.SYSTEM_ICON_IDENTIFIER)
+                && mNavBarButtonColorMode == 1) {
+            shouldColor = false;
+        }
+
+        updateBackButtonDrawables(backIcon, backIconLand, shouldColor);
+
         // construct the navigationbar
         if (recreate) {
             makeBar();
@@ -1296,6 +1327,20 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
         mBackLandIcon = new BackButtonDrawable(iconBackLand);
         }
 
+    }
+
+    private void updateBackButtonDrawables(
+            Drawable iconBack, Drawable iconBackLand, boolean color) {
+        iconBack.mutate();
+        iconBackLand.mutate();
+        iconBack.setTintMode(PorterDuff.Mode.MULTIPLY);
+        iconBackLand.setTintMode(PorterDuff.Mode.MULTIPLY);
+        if (color && mNavBarButtonColorMode != 3) {
+            iconBack.setTint(mNavBarButtonColor);
+            iconBackLand.setTint(mNavBarButtonColor);
+        }
+        mBackIcon = new BackButtonDrawable(iconBack);
+        mBackLandIcon = new BackButtonDrawable(iconBackLand);
     }
 
     public void setForgroundColor(Drawable drawable) {
