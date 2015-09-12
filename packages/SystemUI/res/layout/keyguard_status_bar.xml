@@ -67,8 +67,8 @@
 
     <com.android.keyguard.CarrierText
         android:id="@+id/keyguard_carrier_text"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/status_bar_header_height_keyguard"
+        android:layout_width="0.0dip"
+        android:layout_height="0.0dip"
         android:layout_marginStart="@dimen/keyguard_carrier_text_margin"
         android:layout_toStartOf="@id/system_icons_super_container"
         android:gravity="center_vertical"
