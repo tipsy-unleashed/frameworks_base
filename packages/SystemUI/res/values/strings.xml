@@ -744,7 +744,7 @@
     <string name="notification_tap_again">Touch again to open</string>
 
     <!-- Shows when people have pressed the unlock icon to explain how to unlock. [CHAR LIMIT=60] -->
-    <string name="keyguard_unlock">Swipe up to unlock</string>
+    <string name="keyguard_unlock">Bottoms Up To Get Tipsy</string>
 
     <!-- Shows when people have clicked at the left edge of the screen to explain how to open the phone. In right-to-left languages, this is the opposite direction. [CHAR LIMIT=60] -->
     <string name="phone_hint">Swipe right for phone</string>
