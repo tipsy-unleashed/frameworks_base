@@ -525,9 +525,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     Settings.System.RECENT_CARD_TEXT_COLOR), false, this,
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
-                    Settings.System.HEADS_UP_NOTIFCATION_DECAY), false, this,
-                    UserHandle.USER_ALL);
-            resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.LOCKSCREEN_ROTATION),false, this, 
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
@@ -594,17 +591,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 attachPieContainer(isPieEnabled());
             }
             update();
-
-	    if (uri.equals(Settings.System.getUriFor(
-                    Settings.System.HEADS_UP_NOTIFCATION_DECAY))) {
-                    mHeadsUpNotificationDecay = Settings.System.getIntForUser(
-                            mContext.getContentResolver(),
-                            Settings.System.HEADS_UP_NOTIFCATION_DECAY,
-                            mContext.getResources().getInteger(
-                            R.integer.heads_up_notification_decay),
-                            UserHandle.USER_CURRENT);
-                    resetHeadsUpDecayTimer();
-            }
 
             if (uri.equals(Settings.System.getUriFor(
                     Settings.System.NAVIGATION_BAR_BUTTON_TINT))
@@ -754,8 +740,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             initTickerView();
         }
     };
-
-    private SettingsObserver mSettingsObserver = new SettingsObserver(mHandler);
 
     private int mInteractingWindows;
     private boolean mAutohideSuspended;
@@ -955,7 +939,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             addHeadsUpView();
         }
 
-
         mUnlockMethodCache = UnlockMethodCache.getInstance(mContext);
         mUnlockMethodCache.addListener(this);
         startKeyguard();
@@ -1032,14 +1015,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 1,
                 UserHandle.USER_CURRENT);
         setHeadsUpGlobalSwitch(headsUpGlobalSwitch);
-
-            mHeadsUpNotificationView.setVisibility(View.GONE);
-            mHeadsUpNotificationView.setBar(this);
-            mHeadsUpNotificationDecay = Settings.System.getIntForUser(
-                    mContext.getContentResolver(),
-                    Settings.System.HEADS_UP_NOTIFCATION_DECAY,
-                    res.getInteger(R.integer.heads_up_notification_decay),
-                    UserHandle.USER_CURRENT);
         mHeadsUpNotificationDecay = Settings.System.getIntForUser(
                 mContext.getContentResolver(),
                 Settings.System.HEADS_UP_NOTIFCATION_DECAY,
@@ -1673,10 +1648,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     }
 
     private void addHeadsUpView() {
-        if (mHeadsUpNotificationView != null && mHeadsUpNotificationView.isAttachedToWindow()) {
-            return;
-        }
-
+        if (!mHeadsUpViewAttached) {
             int headsUpHeight = mContext.getResources()
                     .getDimensionPixelSize(R.dimen.heads_up_window_height);
             WindowManager.LayoutParams lp = new WindowManager.LayoutParams(
@@ -1697,6 +1669,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
 
             mWindowManager.addView(mHeadsUpNotificationView, lp);
             mHeadsUpViewAttached = true;
+        }
     }
 
     private void removeHeadsUpView() {
@@ -3985,11 +3958,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         EventLog.writeEvent(EventLogTags.SYSUI_HEADS_UP_STATUS,
                 vis ? mHeadsUpNotificationView.getKey() : "",
                 vis ? 1 : 0);
-        if (mHeadsUpNotificationView != null && mHeadsUpNotificationView.isAttachedToWindow()) {
-            mHeadsUpNotificationView.setVisibility(vis ? View.VISIBLE : View.GONE);
+        mHeadsUpNotificationView.setVisibility(vis ? View.VISIBLE : View.GONE);
         if (!vis) {
             mHeadsUpPackageName = null;
-        }
         }
     }
 

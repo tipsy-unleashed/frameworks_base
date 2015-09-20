@@ -33,7 +33,6 @@ import android.app.admin.DevicePolicyManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
-import android.content.ContentResolver;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -50,7 +49,6 @@ import android.content.ServiceConnection;
 import android.database.ContentObserver;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
@@ -349,43 +347,18 @@ public abstract class BaseStatusBar extends SystemUI implements
     };
 
 
-    private class SettingsObserver extends ContentObserver {
-        public SettingsObserver(Handler handler) {
-            super(handler);
-        }
-
-        public void observe() {
-            ContentResolver resolver = mContext.getContentResolver();
-            resolver.registerContentObserver(
                     Settings.System.getUriFor(Settings.System.HEADS_UP_CUSTOM_VALUES),
                     false, this);
             resolver.registerContentObserver(
                     Settings.System.getUriFor(Settings.System.HEADS_UP_BLACKLIST_VALUES),
 			        false, this);
             resolver.registerContentObserver(
-                    Settings.Secure.getUriFor(Settings.Secure.SEARCH_PANEL_ENABLED),
-                    false, this);
-            update();
-        }
-
-        @Override
-        public void onChange(boolean selfChange, Uri uri) {
-            update();
-        }
-
-        private void update() {
             final String dndString = Settings.System.getString(mContext.getContentResolver(),
                     Settings.System.HEADS_UP_CUSTOM_VALUES);
             final String blackString = Settings.System.getString(mContext.getContentResolver(),
                     Settings.System.HEADS_UP_BLACKLIST_VALUES);
             splitAndAddToArrayList(mDndList, dndString, "\\|");
             splitAndAddToArrayList(mBlacklist, blackString, "\\|");
-
-            ContentResolver resolver = mContext.getContentResolver();
-            mSearchPanelViewEnabled = Settings.Secure.getInt(
-                    resolver, Settings.Secure.SEARCH_PANEL_ENABLED, 1) == 1;
-        }
-    };
 
     private RemoteViews.OnClickHandler mOnClickHandler = new RemoteViews.OnClickHandler() {
         @Override
@@ -630,9 +603,6 @@ public abstract class BaseStatusBar extends SystemUI implements
 
         mDndList = new ArrayList<String>();
         mBlacklist = new ArrayList<String>();
-
-        SettingsObserver observer = new SettingsObserver(mHandler);
-        observer.observe();
 
         mSettingsObserver.onChange(false); // set up
         mContext.getContentResolver().registerContentObserver(
@@ -2479,12 +2449,6 @@ public abstract class BaseStatusBar extends SystemUI implements
             return false;
         }
 
-        // Stop here if headsup is not globally forced and app is snoozed
-        if (!isHeadsUpForced() &&
-                mHeadsUpNotificationView.isSnoozed(pkg)) {
-            return false;
-        }
-
         Notification notification = sbn.getNotification();
 
         // check if notification from the package is blacklisted first
@@ -2578,19 +2542,6 @@ public abstract class BaseStatusBar extends SystemUI implements
             return interrupt;
     }
 
-    private boolean isIncomingCall(String packageName) {
-        return packageName.equals("com.android.dialer");
-    }
-
-    private boolean isNonIntrusiveEnabled() {
-        final String result = Settings.System.getString(mContext.getContentResolver(),
-            Settings.System.USE_NON_INTRUSIVE_CALL);
-
-        // should be on by default
-        if (result == null)
-            return true;
-
-        return !result.equals("0");
     }
 
     private String getTopLevelPackage() {
@@ -2621,8 +2572,6 @@ public abstract class BaseStatusBar extends SystemUI implements
                 }
             }
         }
-    }
-
     public void setInteracting(int barWindow, boolean interacting) {
         // hook for subclasses
     }
