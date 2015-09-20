@@ -2457,16 +2457,6 @@ public abstract class BaseStatusBar extends SystemUI implements
             Log.d(TAG, "failed to query dream manager", e);
         }
 
-        // its below our threshold priority, we might want to always display
-        // notifications from certain apps
-        if (!isHighPriority && !isOngoing) {
-            // However, we don't want to interrupt if we're in an application that is
-            // in Do Not Disturb
-            if (!isPackageInDnd(getTopLevelPackage())) {
-                return true;
-            }
-        }
-
         if (DEBUG) Log.d(TAG, "interrupt: " + interrupt);
             return interrupt;
     }
