@@ -2403,8 +2403,6 @@ public abstract class BaseStatusBar extends SystemUI implements
                 || notification.vibrate != null;
         boolean isHighPriority = sbn.getScore() >= INTERRUPTION_THRESHOLD;
         boolean isFullscreen = notification.fullScreenIntent != null;
-        boolean hasTicker = mHeadsUpTicker && !TextUtils.isEmpty(notification.tickerText);
-        boolean isOngoing = sbn.isOngoing();
 
         // incoming call should be allowed to process
         // to handle non-intrusive ui correctly
