@@ -346,20 +346,6 @@ public abstract class BaseStatusBar extends SystemUI implements
         }
     };
 
-
-                    Settings.System.getUriFor(Settings.System.HEADS_UP_CUSTOM_VALUES),
-                    false, this);
-            resolver.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.HEADS_UP_BLACKLIST_VALUES),
-			        false, this);
-            resolver.registerContentObserver(
-            final String dndString = Settings.System.getString(mContext.getContentResolver(),
-                    Settings.System.HEADS_UP_CUSTOM_VALUES);
-            final String blackString = Settings.System.getString(mContext.getContentResolver(),
-                    Settings.System.HEADS_UP_BLACKLIST_VALUES);
-            splitAndAddToArrayList(mDndList, dndString, "\\|");
-            splitAndAddToArrayList(mBlacklist, blackString, "\\|");
-
     private RemoteViews.OnClickHandler mOnClickHandler = new RemoteViews.OnClickHandler() {
         @Override
         public boolean onClickHandler(
@@ -2449,15 +2435,6 @@ public abstract class BaseStatusBar extends SystemUI implements
             return false;
         }
 
-<<<<<<< HEAD
-        Notification notification = sbn.getNotification();
-
-        // check if notification from the package is blacklisted first
-        if (isPackageBlacklisted(sbn.getPackageName())) {
-            return false;
-        }
-
-=======
         // Stop here if headsup is not globally forced and app is snoozed
         if (!isHeadsUpForced() &&
                 mHeadsUpNotificationView.isSnoozed(pkg)) {
@@ -2465,7 +2442,6 @@ public abstract class BaseStatusBar extends SystemUI implements
         }
 
         Notification notification = sbn.getNotification();
->>>>>>> 1f33b64... [2/2] SlimHeadsUp: Add a global 3-way switch
         // some predicates to make the boolean logic legible
         boolean isNoisy = (notification.defaults & Notification.DEFAULT_SOUND) != 0
                 || (notification.defaults & Notification.DEFAULT_VIBRATE) != 0
@@ -2552,8 +2528,6 @@ public abstract class BaseStatusBar extends SystemUI implements
             return interrupt;
     }
 
-    }
-
     private String getTopLevelPackage() {
         final ActivityManager am = (ActivityManager)
                 mContext.getSystemService(Context.ACTIVITY_SERVICE);
@@ -2582,6 +2556,8 @@ public abstract class BaseStatusBar extends SystemUI implements
                 }
             }
         }
+    }
+
     public void setInteracting(int barWindow, boolean interacting) {
         // hook for subclasses
     }
