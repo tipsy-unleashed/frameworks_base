@@ -2424,7 +2424,8 @@ public abstract class BaseStatusBar extends SystemUI implements
                                          || !mStatusBarKeyguardViewManager.isOccluded())
                 && mStatusBarKeyguardViewManager.isInputRestricted();
 
-        boolean interrupt = (isFullscreen || (isHighPriority && (isNoisy || hasTicker))) 
+        boolean interrupt = (isFullscreen || (isHighPriority && isNoisy)
+                || asHeadsUp == Notification.HEADS_UP_REQUESTED)
                 && isAllowed
                 && !accessibilityForcesLaunch
                 && mPowerManager.isScreenOn()
