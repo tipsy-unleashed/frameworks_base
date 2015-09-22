@@ -704,15 +704,17 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
             d = mContext.getResources().getDrawable(R.drawable.ic_ime_switcher_default);
         }
 
-        if (mNavBarButtonColorMode != 3) {
-            if (d instanceof VectorDrawable) {
-                d.setTint(mNavBarButtonColor);
-            } else {
-                d = ColorHelper.getColoredDrawable(d, mNavBarButtonColor);
+        if (d != null) {
+            d.mutate();
+            if (mNavBarButtonColorMode != 3) {
+                if (d instanceof VectorDrawable) {
+                    d.setTint(mNavBarButtonColor);
+                } else {
+                    d = ImageHelper.getColoredDrawable(d, mNavBarButtonColor);
+                }
             }
-            v.setImageDrawable(d);
+            v.setImageBitmap(ImageHelper.drawableToBitmap(d));
         }
-        v.setImageBitmap(ColorHelper.drawableToBitmap(d));
         v.setRippleColor(mRippleColor);
 
         return v;
