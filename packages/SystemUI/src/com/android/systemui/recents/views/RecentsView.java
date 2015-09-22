@@ -20,6 +20,7 @@ import android.app.ActivityOptions;
 import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Rect;
@@ -32,6 +33,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowInsets;
 import android.widget.FrameLayout;
+import com.android.internal.util.slim.Action; 
 import com.android.systemui.recents.Constants;
 import com.android.systemui.recents.RecentsConfiguration;
 import com.android.systemui.recents.misc.SystemServicesProxy;
@@ -368,7 +370,7 @@ public class RecentsView extends FrameLayout implements TaskStackView.TaskStackV
             }
         }
         if (mFloatingButton != null && showClearAllRecents) {
-            int clearRecentsLocation = Settings.System.getInt(resolver,
+            int clearRecentsLocation = Settings.System.getInt(mContext.getContentResolver(),
                     Settings.System.RECENTS_CLEAR_ALL_LOCATION, Constants.DebugFlags.App.RECENTS_CLEAR_ALL_BOTTOM_RIGHT);
             FrameLayout.LayoutParams params = (FrameLayout.LayoutParams)
                     mFloatingButton.getLayoutParams();
@@ -410,6 +412,32 @@ public class RecentsView extends FrameLayout implements TaskStackView.TaskStackV
         }
 
         setMeasuredDimension(width, height);
+    }
+
+    private void adjustRecentButtonPosition(FrameLayout.LayoutParams params) {
+        if (params == null) {
+            return;
+        }
+
+        boolean landscape = mContext.getResources().getConfiguration()
+            .orientation == Configuration.ORIENTATION_LANDSCAPE;
+        if (landscape) {
+            return;
+        }
+
+        boolean navBarEnabled = Action.isNavBarEnabled(mContext);
+        if (navBarEnabled) {
+            int navigationBarHeight =
+                    Settings.System.getIntForUser(mContext.getContentResolver(),
+                            Settings.System.NAVIGATION_BAR_HEIGHT, -2,
+                            UserHandle.USER_CURRENT);
+            if (navigationBarHeight == -2) {
+                navigationBarHeight = mContext.getResources().getDimensionPixelSize(
+                        com.android.internal.R.dimen.navigation_bar_height);
+            } else {
+                params.bottomMargin = navigationBarHeight;
+            }
+        }
     }
 
     public void noUserInteraction() {
