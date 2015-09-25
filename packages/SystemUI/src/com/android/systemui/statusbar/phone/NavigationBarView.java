@@ -71,8 +71,8 @@ import android.widget.LinearLayout;
 import com.android.internal.util.slim.ActionConfig;
 import com.android.internal.util.slim.ActionConstants;
 import com.android.internal.util.slim.ActionHelper;
-import com.android.internal.util.slim.ColorHelper;
 import com.android.internal.util.slim.DeviceUtils;
+import com.android.internal.util.slim.ImageHelper;
 import com.android.systemui.R;
 import com.android.systemui.statusbar.BaseStatusBar;
 import com.android.systemui.statusbar.DelegateViewHelper;
@@ -1243,11 +1243,11 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
                 Settings.System.STATUS_BAR_IME_ARROWS, HIDE_IME_ARROW,
                 UserHandle.USER_CURRENT) == SHOW_IME_ARROW);
 
-		    Settings.System.NAVIGATION_BAR_DOUBLE_TAP_SLEEP),false, this);
-            resolver.registerContentObserver(Settings.System.getUriFor(
-            mDoubleTapSleep = Settings.System.getIntForUser(resolver,
-                    Settings.System.NAVIGATION_BAR_DOUBLE_TAP_SLEEP,
-                    0, UserHandle.USER_CURRENT) != 0;
+
+        mDoubleTapSleep = Settings.System.getIntForUser(resolver,
+                Settings.System.NAVIGATION_BAR_DOUBLE_TAP_SLEEP,
+                0, UserHandle.USER_CURRENT) != 0;
+
         mDimNavButtons = (Settings.System.getIntForUser(resolver,
                 Settings.System.DIM_NAV_BUTTONS, 0,
                 UserHandle.USER_CURRENT) == 1);
@@ -1313,18 +1313,6 @@ public class NavigationBarView extends LinearLayout implements BaseStatusBar.Nav
         // construct the navigationbar
         if (recreate) {
             makeBar();
-
-    private void updateBackButtonDrawables(
-            Drawable iconBack, Drawable iconBackLand, boolean color) {
-        iconBack.mutate();
-        iconBackLand.mutate();
-        iconBack.setTintMode(PorterDuff.Mode.MULTIPLY);
-        iconBackLand.setTintMode(PorterDuff.Mode.MULTIPLY);
-        if (color && mNavBarButtonColorMode != 3) {
-            iconBack.setTint(mNavBarButtonColor);
-            iconBackLand.setTint(mNavBarButtonColor);
-        mBackIcon = new BackButtonDrawable(iconBack);
-        mBackLandIcon = new BackButtonDrawable(iconBackLand);
         }
 
     }
