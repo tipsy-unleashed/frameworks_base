@@ -6768,14 +6768,6 @@ public final class Settings {
         public static final String APP_PERFORMANCE_PROFILES_ENABLED = "app_perf_profiles_enabled";
 
         /**
-         * Whether to display a menu containing 'Wipe data', 'Force close' and other options
-         * in the notification area and in the recent app list
-         * @hide
-         */
-        public static final String DEVELOPMENT_SHORTCUT = "development_shortcut";
-
-
-         /**
          * Custom navring actions
          * @hide
          */
@@ -6790,6 +6782,13 @@ public final class Settings {
          * @hide
          */
         public static final String SEARCH_PANEL_ENABLED = "search_panel_enabled";
+
+        /**
+         * Whether to display a menu containing 'Wipe data', 'Force close' and other options
+         * in the notification area and in the recent app list
+         * @hide
+         */
+        public static final String DEVELOPMENT_SHORTCUT = "development_shortcut";
 
         /**
          * This are the settings to be backed up.
