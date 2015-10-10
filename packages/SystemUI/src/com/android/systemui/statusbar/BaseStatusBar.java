@@ -33,6 +33,7 @@ import android.app.admin.DevicePolicyManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.ContentResolver;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -49,6 +50,7 @@ import android.content.ServiceConnection;
 import android.database.ContentObserver;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Handler;
@@ -346,6 +348,31 @@ public abstract class BaseStatusBar extends SystemUI implements
         }
     };
 
+    private class SettingsObserver extends ContentObserver {
+        public SettingsObserver(Handler handler) {
+            super(handler);
+        }
+
+        public void observe() {
+            ContentResolver resolver = mContext.getContentResolver();
+            resolver.registerContentObserver(
+                    Settings.Secure.getUriFor(Settings.Secure.SEARCH_PANEL_ENABLED),
+                    false, this);
+            update();
+        }
+
+        @Override
+        public void onChange(boolean selfChange, Uri uri) {
+            update();
+        }
+
+        private void update() {
+            ContentResolver resolver = mContext.getContentResolver();
+            mSearchPanelViewEnabled = Settings.Secure.getInt(
+                    resolver, Settings.Secure.SEARCH_PANEL_ENABLED, 1) == 1;
+        }
+    };
+
     private RemoteViews.OnClickHandler mOnClickHandler = new RemoteViews.OnClickHandler() {
         @Override
         public boolean onClickHandler(
@@ -589,6 +616,9 @@ public abstract class BaseStatusBar extends SystemUI implements
 
         mDndList = new ArrayList<String>();
         mBlacklist = new ArrayList<String>();
+
+        SettingsObserver observer = new SettingsObserver(mHandler);
+        observer.observe();
 
         mSettingsObserver.onChange(false); // set up
         mContext.getContentResolver().registerContentObserver(
