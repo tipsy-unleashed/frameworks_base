@@ -265,6 +265,7 @@ LOCAL_CFLAGS += -I$(LOCAL_PATH)/../../../../bionic/libc/private
 ifeq ($(WITH_MALLOC_LEAK_CHECK),true)
 	LOCAL_CFLAGS += -DMALLOC_LEAK_CHECK
 endif
+LOCAL_CFLAGS += -Wall -Wno-error=deprecated-declarations -Wunused -Wunreachable-code \
 
 LOCAL_MODULE:= libandroid_runtime
 

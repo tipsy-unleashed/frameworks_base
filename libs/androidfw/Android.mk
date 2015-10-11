@@ -69,6 +69,7 @@ LOCAL_SHARED_LIBRARIES := \
 	libutils \
 	libz
 
+LOCAL_CFLAGS += -Wall -Wunused -Wunreachable-code
 include $(BUILD_SHARED_LIBRARY)
 
 
