@@ -79,6 +79,7 @@ oneway interface IStatusBar
     void onCameraLaunchGestureDetected(int source);
 
     void showCustomIntentAfterKeyguard(inout Intent intent);
+    void setAutoRotate(boolean enabled);
     void toggleScreenshot();
     void toggleLastApp();
     void toggleKillApp();
