@@ -79,6 +79,11 @@ public class StatusBarIconController implements Tunable {
     private ImageView mMoreIcon;
     private BatteryMeterView mBatteryMeterView;
     private TextView mClock;
+    // Center clock
+    private LinearLayout mCenterClockLayout;
+    private TextView mCclock;
+    private boolean mShowClock;
+    private int mClockLocation;
 
     // Center clock
     private LinearLayout mCenterClockLayout;
@@ -259,11 +264,12 @@ public class StatusBarIconController implements Tunable {
 
     public void hideSystemIconArea(boolean animate) {
         animateHide(mSystemIconArea, animate);
-        animateShow(mCenterClockLayout, animate);
+        animateHide(mCenterClockLayout, animate);
     }
 
     public void showSystemIconArea(boolean animate) {
         animateShow(mSystemIconArea, animate);
+        animateShow(mCenterClockLayout, animate);
     }
 
     public void hideNotificationIconArea(boolean animate) {
