@@ -4508,6 +4508,13 @@ public final class Settings {
         public static final String POWERMENU_SCREENSHOT = "powermenu_screenshot";
 
         /**
+        * Whether volume control media sound stream
+        * @hide
+        */
+        public static final String VOLUME_KEY_CONTROL_MEDIA =
+                "volume_key_control_media";
+
+         /**
          * Whether to display settings in the power menu
          *
          * @hide
