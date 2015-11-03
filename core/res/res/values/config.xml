@@ -2568,4 +2568,9 @@
     <!-- Show battery fully charged notification -->
     <bool name="config_showBatteryFullyChargedNotification">false</bool>
 
+
+
+    <bool name="config_regional_hotspot_show_maximum_connection_enable">false</bool>
+    <bool name="config_regional_hotspot_show_broadcast_ssid_checkbox">false</bool>
+    <bool name="config_regional_hotspot_show_notification_when_turn_on">false</bool>
 </resources>
