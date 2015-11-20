@@ -2559,6 +2559,15 @@ public final class Settings {
         public static final String STATUS_BAR_QUICK_QS_PULLDOWN = "status_bar_quick_qs_pulldown";
 
         /**
+         * MediaScanner behavior on boot.
+         * 0 = enabled
+         * 1 = ask (notification)
+         * 2 = disabled
+         * @hide
+         */
+        public static final String MEDIA_SCANNER_ON_BOOT = "media_scanner_on_boot";
+
+        /**
          * The keyboard brightness to be used while the screen is on.
          * Valid value range is between 0 and {@link PowerManager#getMaximumKeyboardBrightness()}
          * @hide
