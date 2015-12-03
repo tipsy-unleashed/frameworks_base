@@ -175,7 +175,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
     // No longer recommended for desk docks; still useful in car docks.
     static final boolean ENABLE_CAR_DOCK_HOME_CAPTURE = true;
     static final boolean ENABLE_DESK_DOCK_HOME_CAPTURE = false;
-    
+
     /**
      * Masks for checking presence of hardware keys.
      * Must match values in core/res/res/values/config.xml
@@ -651,7 +651,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
 
     // Custom hardware key rebinding
     private boolean mDisableVibration;
- 
+
     // Tracks user-customisable behavior for certain key events
     private String mPressOnHomeBehavior          = ActionConstants.ACTION_NULL;
     private String mLongPressOnHomeBehavior      = ActionConstants.ACTION_NULL;
@@ -861,7 +861,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.BACK_WAKE_SCREEN), false, this,
-                    UserHandle.USER_ALL);                    
+                    UserHandle.USER_ALL);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.MENU_WAKE_SCREEN), false, this,
                     UserHandle.USER_ALL);
@@ -914,7 +914,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             }
         }
     }
-    
+
     class HwKeySettingsObserver extends ContentObserver {
         HwKeySettingsObserver(Handler handler) {
             super(handler);
@@ -1687,7 +1687,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         } catch (RemoteException ex) { }
         mSettingsObserver = new SettingsObserver(mHandler);
         mSettingsObserver.observe();
-        
+
         mDeviceHardwareKeys = mContext.getResources().getInteger(
                 com.android.internal.R.integer.config_deviceHardwareKeys);
 
@@ -1695,7 +1695,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             mHwKeySettingsObserver = new HwKeySettingsObserver(mHandler);
             mHwKeySettingsObserver.observe();
         }
-        
+
         mShortcutManager = new ShortcutManager(context);
         mUiMode = context.getResources().getInteger(
                 com.android.internal.R.integer.config_defaultUiModeType);
@@ -2190,7 +2190,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             mNavigationBarCanMove = Settings.System.getIntForUser(resolver,
                     Settings.System.NAVIGATION_BAR_CAN_MOVE,
                     mShortSizeDp < 600 ? 1 : 0, UserHandle.USER_CURRENT) == 1;
-                    
+
             mUserRotationAngles = Settings.System.getIntForUser(resolver,
                     Settings.System.ACCELEROMETER_ROTATION_ANGLES, -1,
                     UserHandle.USER_CURRENT);
@@ -3344,7 +3344,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                     Log.i(TAG, "Ignoring MENU; event canceled.");
                     return -1;
                 }
-                
+
                 if (mEnableShiftMenuBugReports && (metaState & chordBug) == chordBug) {
                     Intent intent = new Intent(Intent.ACTION_BUG_REPORT);
                     mContext.sendOrderedBroadcast(intent, null);
@@ -3365,7 +3365,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                             res, Settings.Global.SHOW_PROCESSES, shown ? 0 : 1);
                     return -1;
                 }
-                
+
                 // Delay handling menu if a double-tap is possible.
                 if (!virtualKey
                         && !mDoubleTapOnMenuBehavior.equals(ActionConstants.ACTION_NULL)) {
@@ -3442,7 +3442,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
             }
             return 0;
         } else if (keyCode == KeyEvent.KEYCODE_APP_SWITCH) {
-			
+
             // If we have released the app switch key, and didn't do anything else
             // while it was pressed, then it is time to process the app switch action!
             if (!down && mAppSwitchPressed) {
@@ -6250,6 +6250,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 return mAssistWakeScreen;
             case KeyEvent.KEYCODE_APP_SWITCH:
                 return mAppSwitchWakeScreen;
+            case KeyEvent.KEYCODE_HOME:
+                return mHomeWakeScreen;
         }
         return true;
     }
@@ -6293,6 +6295,8 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 return mAssistWakeScreen;
             case KeyEvent.KEYCODE_APP_SWITCH:
                 return mAppSwitchWakeScreen;
+            case KeyEvent.KEYCODE_HOME:
+                return mHomeWakeScreen;
         }
         return true;
     }
@@ -7648,7 +7652,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
         return Settings.Global.getInt(mContext.getContentResolver(),
                 Settings.Global.ENABLE_ACCESSIBILITY_GLOBAL_GESTURE_ENABLED, 0) == 1;
     }
-    
+
     private boolean maybeDisableVibration(String action) {
         return action.equals(ActionConstants.ACTION_BACK)
                 || action.equals(ActionConstants.ACTION_MENU_BIG)
