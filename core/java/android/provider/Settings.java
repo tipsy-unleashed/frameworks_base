@@ -3413,7 +3413,6 @@ public final class Settings {
         public static final String KEY_APP_SWITCH_LONG_PRESS_ACTION = "key_app_switch_long_press_action";
 
         /**
-<<<<<<< HEAD
          * Whether to display sound panel in the power menu
          *
          * @hide
@@ -3461,7 +3460,8 @@ public final class Settings {
          * @hide
          */
         public static final String POWERMENU_POWER = "powermenu_power";
-=======
+
+        /**
          * Show or hide clock
          * 0 - hide
          * 1 - show (default)
@@ -3516,7 +3516,6 @@ public final class Settings {
          * @hide
          */
         public static final String STATUSBAR_CLOCK_DATE_FORMAT = "statusbar_clock_date_format";
->>>>>>> 2e033d0... Statusbar clock and date customizations
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
