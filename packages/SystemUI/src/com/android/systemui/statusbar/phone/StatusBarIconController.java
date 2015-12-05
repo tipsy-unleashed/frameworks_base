@@ -85,12 +85,6 @@ public class StatusBarIconController implements Tunable {
     private boolean mShowClock;
     private int mClockLocation;
 
-    // Center clock
-    private LinearLayout mCenterClockLayout;
-    private TextView mCclock;
-    private boolean mShowClock;
-    private int mClockLocation;
-
     private int mIconSize;
     private int mIconHPadding;
 
