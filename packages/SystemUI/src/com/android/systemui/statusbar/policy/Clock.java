@@ -360,7 +360,17 @@ public class Clock extends TextView implements DemoMode {
             mclockColor = defaultColor;
         }
 
+        int defaultColor = getResources().getColor(R.color.status_bar_clock_color);
+        int clockColor = Settings.System.getIntForUser(resolver,
+                Settings.System.STATUSBAR_CLOCK_COLOR, defaultColor,
+                UserHandle.USER_CURRENT);
+        if (clockColor == Integer.MIN_VALUE) {
+            // flag to reset the color
+            clockColor = defaultColor;
+        }
+
         if (mAttached) {
+            setTextColor(clockColor);
             updateClockVisibility();
             updateClock();
         }
