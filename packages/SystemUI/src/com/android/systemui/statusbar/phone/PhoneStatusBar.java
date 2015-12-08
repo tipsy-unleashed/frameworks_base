@@ -43,6 +43,7 @@ import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.PorterDuff;
+import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
@@ -344,6 +345,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     private boolean mShowCarrierInPanel = false;
     boolean mExpandedVisible;
 
+    // Tesla logo
+    private boolean mTeslaLogo;
+    private int mTeslaLogoColor;
+    private ImageView teslaLogo;
+
     private int mNavigationBarWindowState = WINDOW_STATE_SHOWING;
 
     // the tracker view
@@ -408,6 +414,12 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     Settings.System.STATUS_BAR_BRIGHTNESS_CONTROL), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.SCREEN_BRIGHTNESS_MODE), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_TESLA_LOGO),
+                    false, this, UserHandle.USER_ALL);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.STATUS_BAR_TESLA_LOGO_COLOR),
+                    false, this, UserHandle.USER_ALL);
             update();
         }
 
@@ -423,6 +435,11 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC;
             mBrightnessControl = !autoBrightness && Settings.System.getInt(
                     resolver, Settings.System.STATUS_BAR_BRIGHTNESS_CONTROL, 0) == 1;
+            mTeslaLogo = Settings.System.getIntForUser(resolver,
+                    Settings.System.STATUS_BAR_TESLA_LOGO, 0, mCurrentUserId) == 1;
+            mTeslaLogoColor = Settings.System.getIntForUser(resolver,
+                    Settings.System.STATUS_BAR_TESLA_LOGO_COLOR, 0xFFFFFFFF, mCurrentUserId);
+            showTeslaLogo(mTeslaLogo, mTeslaLogoColor);
         }
     }
 
@@ -3184,6 +3201,16 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             }
         }
     };
+
+    public void showTeslaLogo(boolean show, int color) {
+        if (mStatusBarView == null) return;
+        ContentResolver resolver = mContext.getContentResolver();
+        teslaLogo = (ImageView) mStatusBarView.findViewById(R.id.tesla_logo);
+        teslaLogo.setColorFilter(color, Mode.SRC_IN);
+        if (teslaLogo != null) {
+            teslaLogo.setVisibility(show ? (mTeslaLogo ? View.VISIBLE : View.GONE) : View.GONE);
+        }
+    }
 
     private void resetUserExpandedStates() {
         ArrayList<Entry> activeNotifications = mNotificationData.getActiveNotifications();

@@ -3803,6 +3803,19 @@ public final class Settings {
         public static final String HEADSET_PLUGGED_IN = "headset_plugged_in";
 
         /**
+         * Statusbar Tesla logo
+         * @hide
+         */
+        public static final String STATUS_BAR_TESLA_LOGO = "status_bar_tesla_logo";
+
+        /**
+         * Statusbar Tesla logo color setting
+         * @hide
+         */
+        public static final String STATUS_BAR_TESLA_LOGO_COLOR = "status_bar_tesla_logo_color";
+
+
+        /**
          * Alternative recent apps integration using OmniSwitch
          * @hide
          */
