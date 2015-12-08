@@ -19,6 +19,7 @@ package com.android.systemui.statusbar;
 import android.app.Notification;
 import android.content.Context;
 import android.content.res.Resources;
+import android.database.ContentObserver;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -34,6 +35,7 @@ import android.util.Log;
 import android.view.ViewDebug;
 import android.view.accessibility.AccessibilityEvent;
 import android.widget.ImageView;
+
 
 import com.android.internal.statusbar.StatusBarIcon;
 import com.android.systemui.R;
