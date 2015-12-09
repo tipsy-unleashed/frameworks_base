@@ -100,4 +100,8 @@
     <string name="app_float_item_title">Float view</string>
     <string name="app_stop_item_title">Kill app</string>
 
+    <!-- Battery Saver QS Tile -->
+    <string name="quick_settings_battery_saver">Battery saver</string>
+    <string name="quick_settings_battery_saver_off">Battery saver off</string>
+
 </resources>
