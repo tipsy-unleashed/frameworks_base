@@ -128,7 +128,7 @@ public class BarTransitions {
         private final int mOpaque;
         private final int mSemiTransparent;
         private final int mTransparent;
-        private final int mWarning;
+        private int mWarning;
         private final Drawable mGradient;
         private final TimeInterpolator mInterpolator;
 
