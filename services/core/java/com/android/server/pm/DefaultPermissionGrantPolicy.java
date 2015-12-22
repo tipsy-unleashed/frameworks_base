@@ -1,5 +1,6 @@
 /*
  * Copyright (C) 2015 The Android Open Source Project
+ * Copyright (C) 2015 Alex Naidis <alex.naidis@linux.com> , Team Exodus, The Linux Foundation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -256,9 +257,8 @@ final class DefaultPermissionGrantPolicy {
                     setupIntent, userId);
             if (setupPackage != null
                     && doesPackageSupportRuntimePermissions(setupPackage)) {
-                grantRuntimePermissionsLPw(setupPackage, PHONE_PERMISSIONS, true, userId);
+                grantRuntimePermissionsLPw(setupPackage, PHONE_PERMISSIONS, userId);
                 grantRuntimePermissionsLPw(setupPackage, CONTACTS_PERMISSIONS, userId);
-
             }
 
             // Camera
@@ -571,6 +571,27 @@ final class DefaultPermissionGrantPolicy {
                     && doesPackageSupportRuntimePermissions(musicPackage)) {
                 grantRuntimePermissionsLPw(musicPackage, STORAGE_PERMISSIONS, userId);
             }
+            
+            // Chromium Regular
+            PackageParser.Package chromiumRPackage = getDefaultProviderAuthorityPackageLPr(
+                    "org.chromium.chrome", userId);
+            if (chromiumRPackage != null) {
+                grantRuntimePermissionsLPw(chromiumRPackage, CONTACTS_PERMISSIONS, userId);
+            }
+
+            // Chromium Other
+            PackageParser.Package chromiumOPackage = getDefaultProviderAuthorityPackageLPr(
+                    "org.swe.atego.browser", userId);
+            if (chromiumOPackage != null) {
+                grantRuntimePermissionsLPw(chromiumOPackage, CONTACTS_PERMISSIONS, userId);
+            }
+
+            // SaberChrome
+            PackageParser.Package saberChrome = getDefaultProviderAuthorityPackageLPr(
+                    "org.frap129.saberchrome.browser", userId);
+            if (saberChrome != null) {
+                grantRuntimePermissionsLPw(saberChrome, CONTACTS_PERMISSIONS, userId);
+            }
 
             // Google Account
             PackageParser.Package googleaccountPackage = getDefaultProviderAuthorityPackageLPr(
@@ -609,6 +630,55 @@ final class DefaultPermissionGrantPolicy {
                 grantRuntimePermissionsLPw(gmscorePackage, STORAGE_PERMISSIONS, userId);
             }
 
+			// Google Connectivity Services
+            PackageParser.Package gcsPackage = getDefaultProviderAuthorityPackageLPr(
+                    "com.google.android.apps.gcs", userId);
+            if (gcsPackage != null) {
+                grantRuntimePermissionsLPw(gcsPackage, CONTACTS_PERMISSIONS, userId);
+                grantRuntimePermissionsLPw(gcsPackage, LOCATION_PERMISSIONS, userId);
+            }
+
+			// Google Contacts Sync
+            PackageParser.Package googlecontactssyncPackage = getDefaultProviderAuthorityPackageLPr(
+                    "com.google.android.syncadapters.contacts", userId);
+            if (googlecontactssyncPackage != null) {
+                grantRuntimePermissionsLPw(googlecontactssyncPackage, CONTACTS_PERMISSIONS, userId);
+            }			
+
+			// Google Backup Transport
+            PackageParser.Package googlebackuptransportPackage = getDefaultProviderAuthorityPackageLPr(
+                    "com.google.android.backuptransport", userId);
+            if (googlebackuptransportPackage != null) {
+                grantRuntimePermissionsLPw(googlebackuptransportPackage, CONTACTS_PERMISSIONS, userId);
+            }			
+			
+			// Google Play Framework
+            PackageParser.Package gsfcorePackage = getDefaultProviderAuthorityPackageLPr(
+                    "com.google.android.gsf", userId);
+            if (gsfcorePackage != null) {
+                grantRuntimePermissionsLPw(gsfcorePackage, CONTACTS_PERMISSIONS, userId);
+                grantRuntimePermissionsLPw(gsfcorePackage, PHONE_PERMISSIONS, userId);
+            }		
+
+			// Google Setup Wizard
+            PackageParser.Package setupwizardPackage = getDefaultProviderAuthorityPackageLPr(
+                    "com.google.android.setupwizard", userId);
+            if (setupwizardPackage != null) {
+                grantRuntimePermissionsLPw(setupwizardPackage, CONTACTS_PERMISSIONS, userId);
+                grantRuntimePermissionsLPw(setupwizardPackage, PHONE_PERMISSIONS, userId);
+            }	
+
+			// Google Play Store
+            PackageParser.Package vendingPackage = getDefaultProviderAuthorityPackageLPr(
+                    "com.android.vending", userId);
+            if (vendingPackage != null) {
+                grantRuntimePermissionsLPw(vendingPackage, CONTACTS_PERMISSIONS, userId);
+                grantRuntimePermissionsLPw(vendingPackage, PHONE_PERMISSIONS, userId);
+                grantRuntimePermissionsLPw(vendingPackage, LOCATION_PERMISSIONS, userId);
+                grantRuntimePermissionsLPw(vendingPackage, SMS_PERMISSIONS, userId);
+            }	
+				
+			
             mService.mSettings.onDefaultRuntimePermissionsGrantedLPr(userId);
         }
     }
@@ -883,7 +953,7 @@ final class DefaultPermissionGrantPolicy {
             return false;
         }
         PackageSetting sysPkg = mService.mSettings.getDisabledSystemPkgLPr(pkg.packageName);
-        if (sysPkg != null && sysPkg.pkg != null) {
+        if (sysPkg != null) {
             if ((sysPkg.pkg.applicationInfo.flags & ApplicationInfo.FLAG_PERSISTENT) == 0) {
                 return false;
             }
