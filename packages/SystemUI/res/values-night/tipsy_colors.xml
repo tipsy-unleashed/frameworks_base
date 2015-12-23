@@ -17,7 +17,7 @@
 <resources>
 
     <!-- Floating action button -->
-    <color name="fab_color">#ff33b5e5</color>
-    <color name="floating_action_button_icon_color">#ffffff</color>
+    <color name="fab_color">#f1d744</color>
+    <color name="floating_action_button_icon_color">#000000</color>
 
 </resources>
