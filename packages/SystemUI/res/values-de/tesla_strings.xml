@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--  Copyright (C) 2014-2015 The Dirty Unicorns Project
+
+  This program is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ -->
+
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- Battery Saver Dimss -->
+    <string name="battery_saver_dismiss_title">Verwerfen</string>
+    <string name="battery_saver_notification_action_text_short">Ausschalten</string>
+
+    <!-- Screen timeout QS tile -->
+    <string name="quick_settings_screen_timeout_detail_title">Ruhezustand</string>
+
+    <!-- Brightness QS Tile -->
+    <string name="quick_settings_brightness">Helligkeit</string>
+
+    <!-- App circle sidebar -->
+    <string name="app_float_maximize_item_title">Maximal</string>
+    <string name="app_float_item_title">Schwebende Ansicht</string>
+    <string name="app_stop_item_title">Kill App</string>
+
+    <!-- Screenrecord QS Tile -->
+    <string name="screenrecord_notif_ticker">Bildschirm wird aufgezeichnet</string>
+    <string name="screenrecord_notif_title">Aufnahmebildschirm</string>
+    <string name="screenrecord_notif_pointer_on">Zeiger anzeigen</string>
+    <string name="screenrecord_notif_pointer_off">Zeiger ausblenden</string>
+    <string name="screenrecord_notif_error">Bildschirmaufnahme nicht möglich</string>
+
+    <!-- Battery Saver QS Tile -->
+    <string name="quick_settings_battery_saver">Energiesparmodus</string>
+    <string name="quick_settings_battery_saver_off">Energiesparmodus aus</string>
+
+    <!-- Expanded Desktop QS Tile -->
+    <string name="quick_settings_expanded_desktop">Erweitert</string>
+
+    <!-- Dialog title for navigation bar button selection -->
+    <string name="navbar_dialog_title">Aktion zuweisen</string>
+    <string name="navbar_home_button">Home Taste</string>
+    <string name="navbar_recent_button">Recent Taste</string>
+    <string name="navbar_search_button">Such Taste</string>
+    <string name="navbar_back_button">Zurück Taste</string>
+    <string name="navbar_empty_button">Leertaste</string>
+    <string name="navbar_menu_conditional_button">Menü (automatisch versteckt) Taste</string>
+    <string name="navbar_menu_always_button">Menü (immer anzeigen) Taste</string>
+    <string name="navbar_menu_big_button">Menü Taste</string>
+
+</resources>
