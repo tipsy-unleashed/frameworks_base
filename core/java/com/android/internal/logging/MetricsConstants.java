@@ -267,6 +267,8 @@ public interface MetricsConstants {
     // Tesla 
     public static final int TESLA_ABOUT = 239;
     public static final int TESLACOIL = 240;
+    //Tipsy
+    public static final int TAVERN = 241;
 
     // These constants must match those in the analytic pipeline, do not edit.
     // Add temporary values to the top of MetricsLogger instead.
