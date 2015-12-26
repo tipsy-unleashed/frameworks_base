@@ -127,4 +127,8 @@
  <!-- Hardware key rebinding -->
   <java-symbol type="integer" name="config_deviceHardwareKeys" />
 
+  <!-- Power menu Animations  -->
+  <java-symbol type="style" name="PowerMenuBottomAnimation" />
+  <java-symbol type="style" name="PowerMenuTopAnimation" />
+
 </resources>

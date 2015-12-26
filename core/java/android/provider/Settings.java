@@ -3955,7 +3955,14 @@ public final class Settings {
         public static final String QS_NUM_TILE_COLUMNS = "sysui_qs_num_tile_columns";
 
         /**
-          * location of the clear all rectents button
+         * Whether to display set of animations when prompting the power menu
+         *
+         * @hide
+         */
+        public static final String POWER_MENU_ANIMATIONS = "power_menu_animations";
+
+        /**
+         * location of the clear all rectents button
          * @hide
          */
         public static final String RECENTS_CLEAR_ALL_LOCATION = "recents_clear_all_location";
