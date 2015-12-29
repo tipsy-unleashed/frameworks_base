@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2015 Tesla
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+
+    <!-- Screenrecord -->
+    <string name="powermenu_screenrecord">Screen Record</string>
+
+    <!-- AOKP custom system animations -->
+    <string name="animation_fade">Verblassen</string>
+    <string name="animation_slide_right">von rechts schieben</string>
+    <string name="animation_slide_left">von links schieben</string>
+    <string name="animation_slide_right_no_fade">von rechts schieben (ohne verblassen)</string>
+    <string name="animation_slide_left_no_fade">von links schieben (ohne verblassen)</string>
+    <string name="animation_slide_up">nach unten schieben</string>
+    <string name="animation_slide_down">nach oben schieben</string>
+    <string name="animation_default">Standard</string>
+    <string name="animation_grow_shrink">Grow in (Oben)</string>
+    <string name="animation_grow_shrink_center">Grow in (Mitte)</string>
+    <string name="animation_grow_shrink_bottom">Grow in (Unten)</string>
+    <string name="animation_grow_shrink_left">Grow in (Links)</string>
+    <string name="animation_grow_shrink_right">Grow in (Rechts)</string>
+    <string name="action_null">Leer</string>
+
+    <!-- Slimseekbar -->
+    <string name="default_string">Standard</string>
+
+</resources>
