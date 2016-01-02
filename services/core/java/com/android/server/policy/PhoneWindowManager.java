@@ -123,7 +123,7 @@ import com.android.internal.R;
 import com.android.internal.os.DeviceKeyHandler;
 import com.android.internal.policy.IKeyguardService;
 import com.android.internal.statusbar.IStatusBarService;
-import com.android.internal.util.benzo.DimensionConverter;
+import com.android.internal.util.tesla.DimensionConverter;
 import com.android.internal.util.gesture.EdgeGesturePosition;
 import com.android.internal.util.gesture.EdgeServiceConstants;
 import com.android.internal.util.ScreenShapeHelper;
