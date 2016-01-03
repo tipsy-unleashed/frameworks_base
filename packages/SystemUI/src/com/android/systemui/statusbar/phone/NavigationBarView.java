@@ -945,19 +945,14 @@ public class NavigationBarView extends LinearLayout {
         setMenuVisibility(mShowMenu, true);
     }
 
-    private class SettingsObserver extends UserContentObserver {
+    private class SettingsObserver extends ContentObserver {
 
         SettingsObserver(Handler handler) {
             super(handler);
         }
 
-        @Override
-        protected void observe() {
-            super.observe();
-            ContentResolver resolver = mContext.getContentResolver();
-            resolver.registerContentObserver(
-                    Settings.System.getUriFor(Settings.System.DOUBLE_TAP_SLEEP_NAVBAR),
-                    false, this, UserHandle.USER_ALL);
+        void observe() {
+            ContentResolver resolver = getContext().getContentResolver();
             resolver.registerContentObserver(
                     Settings.System.getUriFor(Settings.System.NAVIGATION_BAR_MENU_ARROW_KEYS),
                     false, this);
@@ -973,27 +968,21 @@ public class NavigationBarView extends LinearLayout {
                     Settings.System.DIM_NAV_BUTTONS_ANIMATE_DURATION), false, this);
             resolver.registerContentObserver(Settings.System.getUriFor(
                     Settings.System.DIM_NAV_BUTTONS_TOUCH_ANYWHERE), false, this);
+            resolver.registerContentObserver(Settings.System.getUriFor(
+                    Settings.System.DOUBLE_TAP_SLEEP_NAVBAR), false, this);
 
             // intialize mModlockDisabled
             onChange(false);
         }
 
-        @Override
-        protected void unobserve() {
-            super.unobserve();
-            mContext.getContentResolver().unregisterContentObserver(this);
+        void unobserve() {
+            getContext().getContentResolver().unregisterContentObserver(this);
         }
 
         @Override
-        protected void update() {
-            mDoubleTapToSleep = Settings.System.getIntForUser(mContext.getContentResolver(),
-                    Settings.System.DOUBLE_TAP_SLEEP_NAVBAR, 0, UserHandle.USER_CURRENT) != 0;
-        }
-        
-        @Override
         public void onChange(boolean selfChange) {
-             mShowDpadArrowKeys = Settings.System.getIntForUser(mContext.getContentResolver(),
-                      Settings.System.NAVIGATION_BAR_MENU_ARROW_KEYS, 0, UserHandle.USER_CURRENT) != 0;
+            mShowDpadArrowKeys = Settings.System.getInt(mContext.getContentResolver(),
+                    Settings.System.NAVIGATION_BAR_MENU_ARROW_KEYS, 0) != 0;
             // reset saved side button visibilities
             for (int i = 0; i < mSideButtonVisibilities.length; i++) {
                 for (int j = 0; j < mSideButtonVisibilities[i].length; j++) {
