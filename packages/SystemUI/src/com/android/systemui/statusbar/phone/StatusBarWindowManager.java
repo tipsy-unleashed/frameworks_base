@@ -50,6 +50,7 @@ public class StatusBarWindowManager {
     private WindowManager.LayoutParams mLpChanged;
     private int mBarHeight;
     private boolean mKeyguardScreenRotation;
+    private final float mScreenBrightnessDoze;
     private final State mCurrentState = new State();
 
     public StatusBarWindowManager(Context context) {
