@@ -320,12 +320,6 @@ public class NavigationBarView extends LinearLayout {
         mSettingsObserver.unobserve();
     }
 
-    @Override
-    protected void onDetachedFromWindow() {
-        super.onDetachedFromWindow();
-        mSettingsObserver.unobserve();
-    }
-
     public BarTransitions getBarTransitions() {
         return mBarTransitions;
     }
