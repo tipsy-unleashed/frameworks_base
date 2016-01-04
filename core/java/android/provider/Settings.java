@@ -4245,13 +4245,6 @@ public final class Settings {
         public static final String BATTERY_SAVER_MODE_COLOR = "battery_save_mode_color";
 
         /**
-         * Boolean value whether to link ringtone and notification volume
-         *
-         * @hide
-         */
-        public static final String VOLUME_LINK_NOTIFICATION = "volume_link_notification";
-
-        /**
          * Whether to display the trigger region or not
          *
          * Whether to dim the navigation bar icons after inactivity
