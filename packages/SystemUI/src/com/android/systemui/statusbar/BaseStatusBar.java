@@ -44,6 +44,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.content.ServiceConnection;
 import android.database.ContentObserver;
+import android.content.ContentResolver;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
