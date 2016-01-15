@@ -4529,6 +4529,12 @@ public final class Settings {
        public static final String USB_DATA_AUTO_UNLOCK = "usb_data_auto_unlock";
 
         /**
+         * Settings Dash Font Style
+         * @hide
+         */
+        public static final String DASHBOARD_FONT_STYLE = "dashboard_font_style";
+
+        /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
          *
