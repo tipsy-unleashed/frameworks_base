@@ -134,4 +134,9 @@
   <java-symbol type="drawable" name="ic_audio_notification_mute_new" />
   <java-symbol type="drawable" name="ic_audio_notification_mute_alpha" />
 
+  <!-- Zen mode toast for oneplus two -->
+  <java-symbol type="string" name="zen_mode_normal_toast" />
+  <java-symbol type="string" name="zen_mode_no_interruptions_toast" />
+  <java-symbol type="string" name="zen_mode_important_interruptions_toast" />
+
 </resources>
