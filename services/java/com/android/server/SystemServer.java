@@ -63,6 +63,7 @@ import com.android.server.display.DisplayManagerService;
 import com.android.server.dreams.DreamManagerService;
 import com.android.server.fingerprint.FingerprintService;
 import com.android.server.hdmi.HdmiControlService;
+import com.android.server.gesture.GestureService;
 import com.android.server.input.InputManagerService;
 import com.android.server.job.JobSchedulerService;
 import com.android.server.lights.LightsService;
@@ -516,7 +517,7 @@ public final class SystemServer {
             Slog.i(TAG, "Window Manager");
             wm = WindowManagerService.main(context, inputManager,
                     mFactoryTestMode != FactoryTest.FACTORY_TEST_LOW_LEVEL,
-                    true, mOnlyCore);
+                    !mFirstBoot, mOnlyCore);
             ServiceManager.addService(Context.WINDOW_SERVICE, wm);
             ServiceManager.addService(Context.INPUT_SERVICE, inputManager);
 
@@ -559,6 +560,7 @@ public final class SystemServer {
         LockSettingsService lockSettings = null;
         AssetAtlasService atlas = null;
         MediaRouterService mediaRouter = null;
+        GestureService gestureService = null;
         EdgeGestureService edgeGestureService = null;
 
         // Bring up services needed for UI.
@@ -965,6 +967,17 @@ public final class SystemServer {
                         new GraphicsStatsService(context));
             }
 
+            if (context.getResources().getBoolean(
+                    com.android.internal.R.bool.config_enableGestureService)) {
+                try {
+                    Slog.i(TAG, "Gesture Sensor Service");
+                    gestureService = new GestureService(context, inputManager);
+                    ServiceManager.addService("gesture", gestureService);
+                } catch (Throwable e) {
+                    Slog.e(TAG, "Failure starting Gesture Sensor Service", e);
+                }
+            }
+
             if (mPackageManager.hasSystemFeature(PackageManager.FEATURE_PRINTING)) {
                 mSystemServiceManager.startService(PRINT_MANAGER_SERVICE_CLASS);
             }
@@ -1106,6 +1119,14 @@ public final class SystemServer {
                 edgeGestureService.systemReady();
             } catch (Throwable e) {
                 reportWtf("making EdgeGesture service ready", e);
+            }
+        }
+        
+        if (gestureService != null) {
+            try {
+                gestureService.systemReady();
+            } catch (Throwable e) {
+                reportWtf("making Gesture Sensor Service ready", e);
             }
         }
 
