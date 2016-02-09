@@ -3271,7 +3271,8 @@ public final class Settings {
         @Deprecated
         public static final String DOCK_SOUNDS_ENABLED = Global.DOCK_SOUNDS_ENABLED;
 
-        /**
+         /**
+         * This is not doing anything, just here for building purpose now
          * Check the proximity sensor during wakeup
          * @hide
          */
