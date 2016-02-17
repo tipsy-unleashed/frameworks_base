@@ -4396,6 +4396,12 @@ public final class Settings {
          */
         public static final String POWERMENU_SOUNDPANEL = "powermenu_soundpanel";
 
+		/**
+         * Whether to display dashboard dividers
+         * @hide
+         */
+        public static final String DASHBOARD_TILEVIEW_DIVIDERS = "dashboard_tileview_dividers";
+
         /**
          * Whether to display screenshot in the power menu
          *
