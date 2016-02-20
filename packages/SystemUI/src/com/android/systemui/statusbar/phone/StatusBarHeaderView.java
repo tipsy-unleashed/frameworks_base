@@ -354,7 +354,8 @@ public class StatusBarHeaderView extends RelativeLayout implements View.OnClickL
         mEmergencyCallsOnly.setVisibility(mExpanded && mShowEmergencyCallsOnly ? VISIBLE : GONE);
         mBatteryLevel.setForceShown(mExpanded && mShowBatteryTextExpanded);
         mBatteryLevel.setVisibility(View.VISIBLE);
-        TunerService.isTunerEnabled(mContext) ? View.INVISIBLE : View.INVISIBLE);
+        mSettingsContainer.findViewById(R.id.tuner_icon).setVisibility(
+                TunerService.isTunerEnabled(mContext) ? View.INVISIBLE : View.INVISIBLE);
         TunerService.setTunerEnabled(mContext, true);
     }
 

@@ -352,15 +352,6 @@ public class Clock extends TextView implements DemoMode {
                 UserHandle.USER_CURRENT);
 
         int defaultColor = getResources().getColor(R.color.status_bar_clock_color);
-        mclockColor = Settings.System.getIntForUser(resolver,
-                Settings.System.STATUSBAR_CLOCK_COLOR, defaultColor,
-                UserHandle.USER_CURRENT);
-        if (mclockColor == Integer.MIN_VALUE) {
-            // flag to reset the color
-            mclockColor = defaultColor;
-        }
-
-        int defaultColor = getResources().getColor(R.color.status_bar_clock_color);
         int clockColor = Settings.System.getIntForUser(resolver,
                 Settings.System.STATUSBAR_CLOCK_COLOR, defaultColor,
                 UserHandle.USER_CURRENT);

@@ -2435,7 +2435,6 @@ public class NotificationPanelView extends PanelView implements
         return mHeadsUpManager.hasPinnedHeadsUp() || mHeadsUpAnimatingAway;
     }
 
-<<<<<<< HEAD
     @Override
     public boolean hasOverlappingRendering() {
         return !mDozing;

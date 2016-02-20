@@ -19,12 +19,18 @@ import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.database.ContentObserver;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.Preference;
+import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceGroup;
+import android.preference.SwitchPreference;
 import android.provider.Settings;
+import android.provider.Settings.System;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -38,7 +44,8 @@ public class TunerFragment extends PreferenceFragment {
 
     public static final String TAG = "TunerFragment";
 
-    public final SettingObserver mSettingObserver = new SettingObserver();
+    private final SettingObserver mSettingObserver = new SettingObserver();
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -57,12 +64,13 @@ public class TunerFragment extends PreferenceFragment {
     @Override
     public void onPause() {
         super.onPause();
+        getContext().getContentResolver().unregisterContentObserver(mSettingObserver);
 
         unregisterPrefs(getPreferenceScreen());
         MetricsLogger.visibility(getContext(), MetricsLogger.TUNER, false);
     }
 
-    public void registerPrefs(PreferenceGroup group) {
+    private void registerPrefs(PreferenceGroup group) {
         TunerService tunerService = TunerService.get(getContext());
         final int N = group.getPreferenceCount();
         for (int i = 0; i < N; i++) {
@@ -75,7 +83,7 @@ public class TunerFragment extends PreferenceFragment {
         }
     }
 
-    public void unregisterPrefs(PreferenceGroup group) {
+    private void unregisterPrefs(PreferenceGroup group) {
         TunerService tunerService = TunerService.get(getContext());
         final int N = group.getPreferenceCount();
         for (int i = 0; i < N; i++) {
@@ -97,5 +105,15 @@ public class TunerFragment extends PreferenceFragment {
         }
         return super.onOptionsItemSelected(item);
     }
-    public final class SettingObserver extends ContentObserver {
+
+    private final class SettingObserver extends ContentObserver {
+        public SettingObserver() {
+            super(new Handler());
+        }
+
+        @Override
+        public void onChange(boolean selfChange, Uri uri, int userId) {
+            super.onChange(selfChange, uri, userId);
+        }
+    }
 }
