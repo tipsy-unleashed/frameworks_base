@@ -79,10 +79,8 @@ public class StatusBarIconController implements Tunable {
     private ImageView mMoreIcon;
     private BatteryMeterView mBatteryMeterView;
     private TextView mClock;
-
     // Center clock
     private LinearLayout mCenterClockLayout;
-    private TextView mCenterClock;
     private TextView mCclock;
     private TextView mLeftClock;
     private boolean mShowClock;
@@ -272,12 +270,10 @@ public class StatusBarIconController implements Tunable {
 
     public void hideNotificationIconArea(boolean animate) {
         animateHide(mNotificationIconArea, animate);
-        animateHide(mCenterClockLayout, animate);
     }
 
     public void showNotificationIconArea(boolean animate) {
         animateShow(mNotificationIconArea, animate);
-        animateShow(mCenterClockLayout, animate);
     }
 
     public void setClockVisibility(boolean visible) {
@@ -291,8 +287,8 @@ public class StatusBarIconController implements Tunable {
         if (clockLocation == 0 && mClock != null) {
             mClock.setVisibility(visible ? (showClock ? View.VISIBLE : View.GONE) : View.GONE);
         }
-        if (clockLocation == 1 && mCenterClock != null) {
-            mCenterClock.setVisibility(visible ? (showClock ? View.VISIBLE : View.GONE) : View.GONE);
+        if (clockLocation == 1 && mCclock != null) {
+            mCclock.setVisibility(visible ? (showClock ? View.VISIBLE : View.GONE) : View.GONE);
         }
         if (clockLocation == 2 && mLeftClock != null) {
             mLeftClock.setVisibility(visible ? (showClock ? View.VISIBLE : View.GONE) : View.GONE);
@@ -435,9 +431,7 @@ public class StatusBarIconController implements Tunable {
         mSignalCluster.setIconTint(mIconTint, mDarkIntensity);
         mMoreIcon.setImageTintList(ColorStateList.valueOf(mIconTint));
         mBatteryMeterView.setDarkIntensity(mDarkIntensity);
-//        mClock.setTextColor(mIconTint);
-//        mCenterClock.setTextColor(mIconTint);
-//        mLeftClock.setTextColor(mIconTint);
+        mClock.setTextColor(mIconTint);
         applyNotificationIconsTint();
     }
 
