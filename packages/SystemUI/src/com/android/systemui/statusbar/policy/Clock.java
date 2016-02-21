@@ -84,7 +84,6 @@ public class Clock extends TextView implements DemoMode {
     protected int mClockDateDisplay = CLOCK_DATE_DISPLAY_GONE;
     protected int mClockDateStyle = CLOCK_DATE_STYLE_REGULAR;
     protected int mClockStyle = STYLE_CLOCK_RIGHT;
-    protected int mclockColor;
     protected boolean mShowClock;
     private int mClockAndDateWidth;
 
@@ -221,7 +220,6 @@ public class Clock extends TextView implements DemoMode {
         if (mDemoMode) return;
         mCalendar.setTimeInMillis(System.currentTimeMillis());
         setText(getSmallTime());
-        setTextColor(mclockColor);
     }
 
     private final CharSequence getSmallTime() {
