@@ -4452,6 +4452,12 @@ public final class Settings {
          */
         public static final String POWERMENU_AIRPLANE = "powermenu_airplane";
 
+	/**
+         * Whether to show switches for wifi/cell/bt in the settings dashboard
+         * @hide
+         */
+        public static final String DASHBOARD_SWITCHES = "dashboard_switches";
+
         /**
          * Whether to display reboot in the power menu
          *
