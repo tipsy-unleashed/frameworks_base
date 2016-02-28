@@ -263,11 +263,10 @@ public interface MetricsConstants {
     public static final int TUNER_DEMO_MODE_ON = 236;
     public static final int TUNER_BATTERY_PERCENTAGE = 237;
     public static final int FUELGAUGE_INACTIVE_APPS = 238;
-    public static final int QS_HEADSUP = 239;
 
     //Tipsy
-    public static final int TESLACOIL = 240;
     public static final int TAVERN = 241;
+    public static final int TESLACOIL = 240;
     // These constants must match those in the analytic pipeline, do not edit.
     // Add temporary values to the top of MetricsLogger instead.
 

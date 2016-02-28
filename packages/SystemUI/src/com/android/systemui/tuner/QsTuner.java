@@ -468,7 +468,6 @@ public class QsTuner extends Fragment implements Callback {
             else if (mSpec.equals("reboot")) return R.drawable.ic_qs_reboot;
             else if (mSpec.equals("battery_saver")) return R.drawable.ic_qs_battery_saver_on;
             else if (mSpec.equals("expanded_desktop")) return R.drawable.ic_qs_expanded_desktop;
-            else if (mSpec.equals("headsup")) return R.drawable.ic_qs_heads_up_on;
             return R.drawable.android;
         }
 
