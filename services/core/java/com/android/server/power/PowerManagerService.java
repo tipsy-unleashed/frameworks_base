@@ -103,7 +103,7 @@ public final class PowerManagerService extends SystemService
     private static final int MSG_SANDMAN = 2;
     // Message: Sent when the screen brightness boost expires.
     private static final int MSG_SCREEN_BRIGHTNESS_BOOST_TIMEOUT = 3;
-
+    // Message: Sent when the screen on is requested.
     private static final int MSG_WAKE_UP = 5;
 
     // Dirty bit: mWakeLocks changed
@@ -169,6 +169,7 @@ public final class PowerManagerService extends SystemService
 
     private static final int BUTTON_ON_DURATION = 5 * 1000;
 
+    // Threshold for proximity check on wakeup
     private static final float PROXIMITY_NEAR_THRESHOLD = 5.0f;
 
     private final Context mContext;
@@ -767,6 +768,8 @@ public final class PowerManagerService extends SystemService
                 Settings.Global.STAY_ON_WHILE_PLUGGED_IN, BatteryManager.BATTERY_PLUGGED_AC);
         mTheaterModeEnabled = Settings.Global.getInt(mContext.getContentResolver(),
                 Settings.Global.THEATER_MODE_ON, 0) == 1;
+        mProximityWakeEnabled = Settings.System.getInt(resolver,
+                Settings.System.PROXIMITY_ON_WAKE, 0) == 1;
         mWakeUpWhenPluggedOrUnpluggedSetting = Settings.Global.getInt(resolver,
                 Settings.Global.WAKE_WHEN_PLUGGED_OR_UNPLUGGED,
                 (mWakeUpWhenPluggedOrUnpluggedConfig ? 1 : 0));
@@ -3478,6 +3481,30 @@ public final class PowerManagerService extends SystemService
                 mSensorManager.registerListener(mProximityListener,
                        mProximitySensor, SensorManager.SENSOR_DELAY_FASTEST);
             }
+            synchronized (mProximityWakeLock) {
+                mProximityWakeLock.acquire();
+                mProximityListener = new SensorEventListener() {
+                    @Override
+                    public void onSensorChanged(SensorEvent event) {
+                        cleanupProximityLocked();
+                        if (!mHandler.hasMessages(MSG_WAKE_UP)) {
+                            Slog.w(TAG, "The proximity sensor took too long, wake event already triggered!");
+                            return;
+                        }
+                        mHandler.removeMessages(MSG_WAKE_UP);
+                        float distance = event.values[0];
+                        if (distance >= PROXIMITY_NEAR_THRESHOLD ||
+                                distance >= mProximitySensor.getMaximumRange()) {
+                            r.run();
+                        }
+                    }
+
+                    @Override
+                    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
+                };
+                mSensorManager.registerListener(mProximityListener,
+                       mProximitySensor, SensorManager.SENSOR_DELAY_FASTEST);
+            }
         }
 
         @Override // Binder call
@@ -3489,6 +3516,7 @@ public final class PowerManagerService extends SystemService
         public void wakeUp(long eventTime, String reason, String opPackageName) {
             wakeUp(eventTime, reason, opPackageName, false);
         }
+
 
         @Override // Binder call
         public void goToSleep(long eventTime, int reason, int flags) {
