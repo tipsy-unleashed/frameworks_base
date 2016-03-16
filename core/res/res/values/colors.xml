@@ -176,4 +176,11 @@
     <color name="Red_800">#ffb93221</color>
 
     <color name="chooser_service_row_background_color">#fff5f5f5</color>
+
+    <!-- Dexopt dialog -->
+    <color name="dexopt_background">#ff212121</color>
+    <color name="dexopt_primary_text">#ffffffff</color>
+    <color name="dexopt_secondary_text">#b3ffffff</color>
+    <color name="dexopt_progress_tint">#ff6a1212</color>
+
 </resources>
