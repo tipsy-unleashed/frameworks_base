@@ -75,8 +75,8 @@
     <color name="material_grey_100">#fff5f5f5</color>
     <color name="material_grey_50">#fffafafa</color>
 
-    <color name="material_deep_teal_200">#fff1d744</color>
-    <color name="material_deep_teal_500">#ffd8c13d</color>
+    <color name="material_deep_teal_200">#ff80cbc4</color>
+    <color name="material_deep_teal_500">#ff009688</color>
 
     <color name="material_blue_grey_800">#212121</color>
     <color name="material_blue_grey_900">#000000</color>
