@@ -107,6 +107,7 @@ import android.view.animation.Animation;
 
 import com.android.internal.logging.MetricsLogger;
 import com.android.internal.policy.PhoneWindow;
+import com.android.internal.util.AllianceUtils;
 import com.android.internal.util.slim.ActionConstants;
 import com.android.internal.util.slim.HwKeyHelper;
 import com.android.internal.util.slim.Action;
@@ -126,7 +127,7 @@ import com.android.internal.R;
 import com.android.internal.os.DeviceKeyHandler;
 import com.android.internal.policy.IKeyguardService;
 import com.android.internal.statusbar.IStatusBarService;
-import com.android.internal.util.benzo.DexoptDialog;
+import com.android.internal.util.alliance.DexoptDialog;
 import com.android.internal.util.ScreenShapeHelper;
 import com.android.internal.util.gesture.EdgeGesturePosition;
 import com.android.internal.util.gesture.EdgeServiceConstants;
@@ -2859,7 +2860,7 @@ public class PhoneWindowManager implements WindowManagerPolicy {
                 + " / " + appToken + ": "
                 + (view.getParent() != null ? view : null));
 
-            mWm.addView(view, params);wm.addView(view, params);
+            mWm.addView(view, params);
 
             // Only return the view if it was successfully added to the
             // window manager... which we can tell by it having a parent.
