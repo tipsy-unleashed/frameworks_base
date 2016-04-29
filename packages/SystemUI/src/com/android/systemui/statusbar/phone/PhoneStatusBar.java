@@ -856,6 +856,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         mHeadsUpManager.addListener(mNotificationPanel);
         mNotificationPanel.setHeadsUpManager(mHeadsUpManager);
         mNotificationData.setHeadsUpManager(mHeadsUpManager);
+        
+        addGestureAnywhereView();
+        addAppCircleSidebar();
 
         if (MULTIUSER_DEBUG) {
             mNotificationPanelDebugText = (TextView) mNotificationPanel.findViewById(
@@ -869,9 +872,6 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
             if (showNav) {
                 mNavigationBarView =
                     (NavigationBarView) View.inflate(context, R.layout.navigation_bar, null);
-
-	  addGestureAnywhereView();
-        addAppCircleSidebar();
 
                 mNavigationBarView.setDisabledFlags(mDisabled1);
                 mNavigationBarView.setBar(this);
