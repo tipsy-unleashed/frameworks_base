@@ -54,7 +54,7 @@ public class ActionConstants {
     public static final String ACTION_MEDIA_NEXT           = "**media_next**";
     public static final String ACTION_MEDIA_PLAY_PAUSE     = "**media_play_pause**";
     public static final String ACTION_WAKE_DEVICE          = "**wake_device**";
-    public static final String ACTION_NOW_ON_TAP           = "**now_on_tap**";
+    public static final String ACTION_NOWONTAP = "**nowontap**";
 
     // no action
     public static final String ACTION_NULL            = "**null**";
@@ -73,7 +73,7 @@ public class ActionConstants {
         + ACTION_NULL       + ACTION_DELIMITER
         + ICON_EMPTY        + ACTION_DELIMITER
         + ACTION_HOME       + ACTION_DELIMITER
-        + ACTION_NOW_ON_TAP + ACTION_DELIMITER
+        + ACTION_NOWONTAP + ACTION_DELIMITER
         + ICON_EMPTY        + ACTION_DELIMITER
         + ACTION_RECENTS    + ACTION_DELIMITER
         + ACTION_NULL       + ACTION_DELIMITER
