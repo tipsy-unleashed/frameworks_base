@@ -2578,6 +2578,18 @@ public final class Settings {
          */
         public static final String BUTTON_BACKLIGHT_TIMEOUT = "button_backlight_timeout";
 
+	/**
+         * Define if screenshot crop & share is active
+	 * @hide
+         */
+        public static final String SCREENSHOT_CROP_AND_SHARE = "screenshot_crop_and_share";
+
+	/**
+         * Define the crop behavior of screenshot crop & share
+	 * @hide
+         */
+        public static final String SCREENSHOT_CROP_BEHAVIOR = "screenshot_crop_behavior";
+
         /**
          * Control whether the process CPU usage meter should be shown.
          *
@@ -4496,6 +4508,13 @@ public final class Settings {
         public static final String POWERMENU_SCREENSHOT = "powermenu_screenshot";
 
         /**
+        * Whether volume control media sound stream
+        * @hide
+        */
+        public static final String VOLUME_KEY_CONTROL_MEDIA =
+                "volume_key_control_media";
+
+         /**
          * Whether to display settings in the power menu
          *
          * @hide
@@ -4535,6 +4554,27 @@ public final class Settings {
          * @hide
          */
         public static final String POWERMENU_POWER = "powermenu_power";
+
+	/**
+         * Change quick settings tiles animation style
+         *
+         * @hide
+         */
+        public static final String ANIM_TILE_STYLE = "anim_tile_style";
+
+	/**
+         * Change quick settings tiles animation duration
+         *
+         * @hide
+         */
+        public static final String ANIM_TILE_DURATION = "anim_tile_duration";
+
+        /**
+         * Change quick settings tiles interpolator
+         *
+         * @hide
+         */
+        public static final String ANIM_TILE_INTERPOLATOR = "anim_tile_interpolator";
 
         /**
          * Defines the shortcuts to be shown on lockscreen
@@ -4579,6 +4619,12 @@ public final class Settings {
          * @hide
          */
         public static final String DASHBOARD_FONT_STYLE = "dashboard_font_style";
+        /**
+         * Transparent qs shade
+         * @hide
+         */
+        public static final String QS_TRANSPARENT_SHADE = "qs_transparent_shade";
+
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
          * keys and easy to update.
