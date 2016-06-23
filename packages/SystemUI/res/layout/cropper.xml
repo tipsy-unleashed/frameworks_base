@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
 
-    <com.isseiaoki.simplecropview.CropImageView
+    <com.android.systemui.screenshot.CropImageView
         android:id="@+id/image"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
