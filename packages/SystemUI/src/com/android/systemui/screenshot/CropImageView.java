@@ -656,7 +656,7 @@ private void drawBlur(Canvas canvas) {
             }
         }
 
-        if (!mIsCropEnabled && !mIsDrawEnabled) return false;
+        if (!mIsCropEnabled && !mIsDrawEnabled && !mIsBlurEnabled) return false;
         if (!mIsEnabled) return false;
 
         if (mIsDrawEnabled) {
